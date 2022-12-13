@@ -1,0 +1,190 @@
+\documentclass[a4paper,twoside,listof=totoc]{scrbook}
+
+% Language support
+\usepackage[magyar]{babel}
+
+% Page geometry
+\usepackage[
+  top=1in,
+  bottom=1in,
+  inner=.8in,
+  outer=1.2in,
+  footskip=.5in,
+]{geometry}
+
+% Document title, author
+\usepackage{fontawesome}
+\title{
+  Rendszer- és irányítástechnika \\
+  szóbeli tételsor
+
+}
+\author{Sándor Tibor}
+\date{
+  \today \\
+  % (1 $\faSpinner$, 2 $\times$)\\
+  \texttt{v1.0.0} \\
+}
+
+% Page style
+\usepackage[
+  luatex,
+  colorlinks=true,
+  allcolors=darkRed
+]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{2pt}
+\fancyfoot[RO,LE]{\thepage}
+\fancyfoot[RE,LO]{\textit{Készítette:} Sándor Tibor}
+\fancyfoot[C]{}
+\fancyhead[RO,LE]{\textsl{\nouppercase{\rightmark}}}
+\fancyhead[RE,LO]{\textsl{\nouppercase{\leftmark}}}
+
+\renewcommand{\chaptermark}[1]{%
+  \markboth{\thechapter\ #1}{}
+}
+\renewcommand{\sectionmark}[1]{%
+  \markright{\thesection\ #1}{}
+}
+
+% Head and foot rule width
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+
+% Paragraph spacing
+\setlength{\parindent}{0em}
+\setlength{\parskip}{.5em}
+
+% Colorful 'titles'
+\setkomafont{disposition}{\color{darkRed}\bfseries\sffamily}
+\setkomafont{captionlabel}{\color{darkRed}\bfseries\sffamily}
+\renewcommand{\theequation}{{\bfseries\color{darkRed}\thesection.\arabic{equation}}}
+
+% Basic math packages
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{unicode-math}
+
+\setmainfont{TeX Gyre Pagella}
+\setmathfont{TeX Gyre Pagella Math}
+% \setmathfont{Asana Math}
+\setsansfont[Scale=MatchUppercase]{TeX Gyre Heros}
+\everydisplay{\Umathoperatorsize\displaystyle=5ex}
+
+% Equation numbreing as (s.ss)
+\counterwithout{section}{chapter}
+\numberwithin{equation}{section}
+\renewcommand{\theequation}{{\bfseries\color{darkRed}\thesection.\arabic{equation}}}
+
+% Very important for variable printing
+\usepackage{icomma}
+\usepackage[
+  locale=DE,
+  per-mode=symbol
+]{siunitx}
+
+% Graphics
+\usepackage{tikz}
+\usetikzlibrary{
+  calc,
+  decorations.pathreplacing,
+  calligraphy
+}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{bodeplot}
+\pgfkeys{/pgf/plot/gnuplot call={cd build && gnuplot}}
+
+% Other packages
+\usepackage{tabto}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{standalone}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{arydshln}
+\usepackage{enumitem}
+
+% Math custom commands
+\newcommand\iu{\symbf{j}}
+\newcommand{\rvec}[1]{\mathbfit{#1}}
+\newcommand{\tvec}[1]{\tilde{\mathbfit{#1}}}
+\newcommand{\uvec}[1]{\widehat{\mathbfit{#1}}}
+\newcommand{\hvec}[1]{\hat{\mathbfit{#1}}}
+\newcommand{\rmat}[1]{\symbf{#1}}
+\newcommand{\tmat}[1]{\tilde{\symbf{#1}}}
+\newcommand{\hmat}[1]{\hat{\symbf{#1}}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\dirac}{\delta}
+\newcommand{\step}{\varepsilon}
+\newcommand{\Imat}{\mathbb{I}}
+\newcommand{\nvec}{\bm{\mathit 0}}
+\newcommand{\e}{\mathbb e}
+\newcommand{\T}{\mathsf T}
+
+\DeclareMathOperator\sgn{sgn}
+\DeclareMathOperator\adj{adj}
+\DeclareMathOperator\rank{rank}
+
+\makeatletter
+\DeclareRobustCommand*{\slashfracstyle}[1]{%
+  {\m@th\ensuremath{\mbox{\fontsize\sf@size\z@\selectfont #1}}}}
+\DeclareRobustCommand*{\slashfrac}[2]{\leavevmode
+  \raise.25ex\hbox{\slashfracstyle{#1}}\kern-.075em/%
+  \kern-.075em\lower.25ex\hbox{\slashfracstyle{#2}}}
+\makeatother
+
+% Custom inputs
+\input{utils/colors}
+\input{utils/environments}
+
+% Document starts here
+\begin{document}
+
+% \frontmatter
+
+\input{titlepage}
+\tableofcontents
+\begingroup
+\vfill
+\let\cleardoublepage\relax
+\listoffigures
+\endgroup
+
+% \mainmatter
+
+\chapter{Klasszikus szabályozáselmélet}
+% \thispagestyle{fancy}
+
+\input{chap1/theorem1}
+\input{chap1/theorem2}
+\input{chap1/theorem3}
+\input{chap1/theorem4}
+\input{chap1/theorem5}
+\input{chap1/theorem6}
+\input{chap1/theorem7}
+
+\chapter{Modern szabályozáselmélet}
+% \thispagestyle{fancy}
+
+\setcounter{section}{7}
+\input{chap2/theorem8}
+\input{chap2/theorem9}
+\input{chap2/theorem10}
+\input{chap2/theorem11}
+\input{chap2/theorem12}
+\input{chap2/theorem13}
+\input{chap2/theorem14}
+
+% \backmatter
+
+% \listoffigures
+% \listoftables
+
+\end{document}

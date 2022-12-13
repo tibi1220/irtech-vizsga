@@ -1,0 +1,68 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\input{../utils/colors}
+
+\newcommand{\rvec}[1]{\mathbfit{#1}}
+\newcommand{\uvec}[1]{\widehat{\mathbfit{#1}}}
+\newcommand{\rmat}[1]{\mathbf{#1}}
+
+\begin{document}
+
+\usetikzlibrary{calc}
+
+\begin{tikzpicture}[
+    thick,
+    arr/.style={ultra thick, draw=darkBlue},
+    err/.style={ultra thick, draw=darkRed},
+    box/.style={
+        rectangle,
+        minimum width=1.4cm,
+        minimum  height=1.1cm,
+        draw=black,
+        align=center,
+        fill=yellow!5,
+      },
+    cross/.style={path picture={
+            \draw[black]
+            (path picture bounding box.south east) -- (path picture bounding box.north west) (path picture bounding
+            box.south west)
+            -- (path picture bounding box.north east);
+          }},
+    sum/.style={circle, minimum size=.75cm, draw=black, cross, fill=yellow!5},
+    ma/.style={midway, above},
+    mb/.style={midway, below},
+    ml/.style={midway, left},
+  ]
+  \node[sum] (sum1) at (-6.25,0) {};
+  \node[sum] (sum2) at (0,0) {};
+
+  \node[box] (X) at (2.75,0) {$\dot{\rvec x} = \rmat A \rvec x + \rmat B \rvec u$};
+  \node[box] (C) at (6,0) {$\rmat C$};
+  \node[box] (K) at (2.5,-1.5) {$\rmat K$};
+  \node[box] (I) at (-2.25,0) {$\rmat K_I$};
+  \node[box] (int) at (-4.5,0) {$\displaystyle\int$};
+
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (H1) at ($(X.east)!0.5!(C.west)$) {};
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (H2) at ($(C.east)+(0.6,0)$) {};
+
+  \draw[arr,to-] (sum1.west) -- ++(-1.2,0) node[ma] {${\rvec r}(t)$};
+  \draw[arr,-to] (sum1) -- (int);
+  \draw[arr,-to] (int) -- (I);
+  \draw[arr,-to] (I) -- (sum2) node[ma] {$\tilde{\rvec r(t)}$};
+  \draw[arr,-to] (sum2) -- (X) node[ma] {$\rvec u(t)$};
+  \draw[arr,-to] (X) -- (C) node[ma] {$\rvec x(t)$};
+  \draw[arr,-to] (C.east) -- ++(1.2,0) node[ma] {$\rvec y(t)$};
+
+  \draw[arr,-to] (H1.center) |- (K);
+  \draw[arr,-to] (K) -| (sum2);
+  \draw[arr,-to] (H2.center) -- ++(0,-2.5) -| (sum1);
+
+  \node[below right=-3pt] at (sum1.290) {$-$};
+  \node[below right=-3pt] at (sum2.290) {$-$};
+\end{tikzpicture}
+\end{document}

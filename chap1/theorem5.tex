@@ -1,0 +1,88 @@
+\section{Soros PI - PD szabályozó}
+
+\begin{about}
+  Ismertesse a soros PI - PD szabályozó egyenletét idő és operátor tartományban!
+  Mutassa be a pólus-zérus kiejtésen alapuló szabályozótervezés menetét!
+  Válaszában térjen ki az ideális és a megvalósítható deriváló (D) tagok
+  összefüggésére is!
+\end{about}
+
+% \subsection{A szabályozó felépítése}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/PI-PD}
+  \caption{Soros PI-PD szabályozó hatásvázlata}
+  \label{fig:PIPD}
+\end{figure}
+
+Egy PI és egy PD szabályozó soros kapcsolásával egy soros PI-PD szabályozót
+kapunk, melynek átviteli függvénye:
+\begin{equation}
+  W(s)
+  =
+  P_{PI} \left( \frac{1 + s\tau_i}{s\tau_i} \right)
+  P_{PD} \left( \frac{1 + s\tau_d}{1 + s\tau_d'} \right)
+  =
+  \underbrace{P_{PI}P_{PD}}_{\kappa_c} \left(
+  \frac{(1 + s\tau_i)(1 + s\tau_d)}{s\tau_i(1 + s\tau_d')}
+  \right)
+  .
+  \label{eq:PIPD-1}
+\end{equation}
+
+% \subsection{Szabályozótervezés}
+
+Kapcsolat a párhuzamos PID és a soros PI-PD szabályozók között:
+\begin{equation}
+  W(s)
+  = \underbrace{
+    \frac{\kappa_c}{\tau_i} \cdot
+    \frac{1 + s (\tau_i + \tau_d) + s^2 (\tau_i \tau_d)}{s(1 + s\tau_d')}
+  }_\text{Soros PI-PD}
+  = \underbrace{
+    \frac{P}{T_I} \cdot
+    \frac{1 + s(T_I + T_D') + s^2(T_I(T_D + T_D'))}{s(1 + sT_D')}
+  }_\text{Párhuzamos PID}
+  .
+  \label{eq:PIPD-2}
+\end{equation}
+Az egyenlőség akkor és csak akkor áll fenn, ha a törtek számlálója és nevezője
+is megegyezik, valamint az erősítések is azonosak, vagyis:
+\begin{alignat}{9}
+   & \text{erősítés: } \quad
+   &                                 & {\kappa_c}/{\tau_i} = {P}/{T_I}
+  ,
+  \\
+   & \text{nevező: } \quad
+   &                                 & \tau_d' = T_D'
+  ,
+  \\
+   & \text{számláló ($s^1$): } \quad
+   &                                 & \tau_i + \tau_d = T_I + T_D'
+  ,
+  \\
+   & \text{számláló ($s^2$): } \quad
+   &                                 & \tau_i \tau_d = T_I(T_D + T_D')
+  .
+\end{alignat}
+A PID szabályozó paraméterei kifejezve a soros PI-PD szabályozó paramétereivel:
+\begin{align}
+  T_D' & = \tau_d
+  ,
+  \\
+  T_I  & = \tau_i + \tau_d - \tau_d'
+  ,
+  \\
+  P    & = (\kappa_c / \tau_i)(\tau_i + \tau_d - \tau_d')
+  ,
+  \\
+  T_D  & = \frac{\tau_i \tau_d}{\tau_i + \tau_d - \tau_d'} - \tau_d'
+  = \frac{
+    \tau_i \tau_d - \tau_d'(\tau_i + \tau_d - \tau_d')
+  }{\tau_i + \tau_d - \tau_d'}
+  = \frac{(\tau_i - \tau_d')(\tau_d - \tau_d')}{\tau_i + \tau_d - \tau_d'}
+  .
+\end{align}
+A tervezés lépéseit a következő, az ideális és megvalósítható deriváló tagok
+összefüggéseit pedig az előző fejezetben tárgyaljuk.

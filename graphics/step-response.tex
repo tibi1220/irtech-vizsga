@@ -1,0 +1,76 @@
+\documentclass[border={-1.5cm, 0, 0, 0}]{standalone}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\input{../utils/colors}
+
+\begin{document}
+
+\usetikzlibrary{intersections}
+
+\begin{tikzpicture}[thick, scale=1.2]
+  \draw[-to] (-0.5,0) -- ++(6.0,0) node[below left] {$t$};
+  \draw[-to] (0,-0.5) -- ++(0,4.5) node[below right] {$y(t)$};
+
+  \def\on{3};         % omega_n
+  \def\z{.3};         % zeta
+  \def\od{2.8618176}; % omega_d = omega_n * sqrt(1 - zeta^2)
+  \def\A{2.2};        % A -- gain
+  \def\po{0.05};      % alpha
+  \def\uval{2.42};    % A * (1 + alpha)
+  \def\lval{1.98};    % A * (1 - alpha)
+
+  \draw[darkRed, dashed] (0,\A) -- ++(5.25,0);
+  \node[left] at (0, \A) {$y(\infty)$};
+  \draw[draw=gray, dashed] (0,\uval) -- ++(5.25,0)
+  node[above, pos=.82] {$y(\infty)(1 + \alpha\%)$};
+  \draw[draw=gray, dashed] (0,\lval) -- ++(5.25,0)
+  node[below, pos=.82] {$y(\infty)(1 - \alpha\%)$};
+
+  \draw[
+     draw =darkYellow,
+    samples=20,
+    domain=.55:5.2,
+    dashed,
+    smooth,
+    variable=\x,
+  ] plot ({\x}, {\A*(1+exp(-\x * \z * \on))});
+  \draw[
+     draw =darkYellow,
+    samples=20,
+    domain=0:5.2,
+    dashed,
+    smooth,
+    variable=\x,
+  ] plot ({\x}, {\A*(1-exp(-\x * \z * \on))});
+
+  \draw[
+     draw =darkBlue,
+    very thick,
+    samples=50,
+    domain=0:5.2,
+    smooth,
+    variable=\x,
+    name path=fn,
+  ] plot ({\x}, {
+      \A * (
+      1 - exp(-\x * \z * \on) * (
+      cos(deg(\x * \od))
+      + \z*(1 - \z^2)^(-1/2) * sin(deg(\x * \od))
+      )
+      )
+    });
+
+  % Igen, ezek random próbálgatással készültek el xd
+  \draw[dashed]
+  (1.1,0) node[below] {$t_p$}
+  |- (0,3.02) node[left] {$y_p$};
+  \draw[dashed]
+  (.66,0) node[below] {$t_r$}
+  -- ++(0, \A);
+  \draw[dashed]
+  (2.46,0) node[below] {$t_r$}
+  -- ++(0, \lval);
+\end{tikzpicture}
+\end{document}

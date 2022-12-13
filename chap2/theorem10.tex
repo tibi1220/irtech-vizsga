@@ -1,0 +1,366 @@
+\section{Állapotirányíthatóság}
+
+\begin{about}
+  Folytonos idejű, lineáris, időinvariáns (LTI) rendszerek esetén ismertesse
+  az állapot irányíthatóság definícióját, illetve a vizsgálathoz alkalmazott
+  Kálmán-féle rangfeltételt! Mutassa be az állapot-visszacsatolás tervezésének
+  lépéseit egy bemenetű egy kimenetű (SISO) rendszerekre nézve hasonlósági
+  transzformáció alkalmazása esetén. Válaszában térjen ki az Ackermann-formula
+  alkalmazására is!
+\end{about}
+
+\subsection{LTI rendszerek állapotirányíthatósága}
+
+\paragraph{Állapotirányíthatóság}
+
+Az adott $\rvec x(t)$ állapot irányítható, ha létezik egy olyan $\rvec u(t)$
+bemenet, amely véges $T$ időn belül az állapottér origójába juttatja az
+állapotokat, azaz $\rvec x(T) = \nvec$
+
+\paragraph{Kármán-féle rangfeltétel}
+
+Egy rendszer, melynek dimenziója $n$ akkor állapotirányítható, ha az $\rmat M_c$
+irányíthatósági mátrix rangja megegyezik az állapotmátrix dimenziójával, vagyis:
+\begin{gather}
+  \rank \rmat M_c = \dim \rmat A = n
+  \quad - \quad \text{MIMO},
+  \\
+  \det \rmat M_c \neq 0
+  \quad - \quad \text{SISO}.
+\end{gather}
+
+Az irányíthatósági mátrix az alábbi alakban írható fel:
+\bgroup
+\ADLdrawingmode{1}
+\def\arraystretch{1.2}
+\begin{equation}
+  \rmat M_c = \left[\begin{array}{ c : c : c : c }
+      \rmat B         &
+      \rmat A \rmat B &
+      \dots           &
+      \rmat A^{n-1} \rmat B
+    \end{array}\right]
+  .
+  \label{eq:M_c}
+\end{equation}
+\egroup
+
+\subsection{Állapot-visszacsatolás tervezése}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/state-feedback}
+  \caption{Az állapot-visszacsatolás hatásvázlata}
+  \label{fig:state-feedback}
+\end{figure}
+
+A tervezés lépései SISO rendszerek esetén:
+\begin{enumerate}[label={\color{darkRed}\theenumi})]
+  \setcounter{enumi}{-1}
+  \item az irányíthatóság vizsgálata ($\det \rmat M_c \overset{?}{\neq} 0$),
+  \item irányíthatósági kanonikus alakra hozás (hasonlósági transzformációval),
+  \item $\tilde{\rmat K}$ mátrix meghatározása az adott $\lambda_i$ sajátértékek
+        segítségével,
+  \item $\tilde{\rmat K}$ mátrix visszatranszformálása $\rmat K$ mátrixszá.
+\end{enumerate}
+
+Adott egy állapottér modell állapot-visszacsatolással, melynek egyenletei
+($\tvec r = \nvec$):
+\begin{alignat}{9}
+  \dot{\rvec x} & = \rmat A \rvec x + \rmat B \rvec u \quad \quad
+                &
+                & \text{állapotegyenlet,}
+  \\
+  \rvec y       & = \rmat C \rvec x
+                &
+                & \text{kimeneti egyenlet,}
+  \\
+  \rvec u       & = - \rmat K \rvec x
+                &
+                & \text{szabályozó egyenlete.}
+\end{alignat}
+
+Vezessük be $\rmat T: \mathbb R^n \mapsto \mathbb R^n$ transzformációs mátrixot
+($\rmat T \in \mathbb R^{n \times n}$, invertálható), majd hattassuk ezen
+transzformációt az előző egyenletekre:
+\begin{alignat}{9}
+  % noindent
+	\dot{\tvec x} & = (\rmat T \rmat A \rmat T^{-1}) \tvec x + (\rmat T \rmat B) \rvec u
+                && = \tmat A \tvec x + \tmat C \tvec u
+	\\
+	\rvec y       & = (\rmat C \rmat T^{-1}) \tvec x
+                && = \tmat C \tvec x
+	\\
+	\rvec u       & = - (\rmat K \rmat T^{-1}) \tvec x
+                && = - \tmat K \tvec x
+  % indent
+\end{alignat}
+
+$\rmat T$ transzformációs mátrix meghatározható az irányíthatósági mátrix
+segítségével. Tudjuk hogy az eredeti az alábbi alakban írható fel:
+\bgroup
+\ADLdrawingmode{1}
+\def\arraystretch{1.2}
+\begin{equation}
+  \rmat M_c = \left[\begin{array}{ c : c : c : c }
+      \rmat B         &
+      \rmat A \rmat B &
+      \dots           &
+      \rmat A^{n-1} \rmat B
+    \end{array}\right]
+  .
+  \label{eq:M_c-og}
+\end{equation}
+\egroup
+
+A transzformált irányíthatósági mátrix ezek alapján:
+\bgroup
+\ADLdrawingmode{1}
+\def\arraystretch{1.2}
+\begin{alignat}{9}
+  \tmat M_c
+   & =         &  & \left[\begin{array}{ c : c : c : c }
+                              \tmat B         &
+                              \tmat A \tmat B &
+                              \dots           &
+                              \tmat A^{n-1} \tmat B
+                            \end{array}\right],
+  \\
+  \tmat M_c
+   & =         &  & \left[\begin{array}{ c : c : c : c }
+                              (\rmat T \rmat B)                                &
+                              (\rmat T \rmat A \rmat T^{-1}) (\rmat T \rmat B) &
+                              \dots                                            &
+                              (\rmat T \rmat A \rmat T^{-1})^{n-1} (\rmat T \rmat B)
+                            \end{array}\right],
+  \\
+  \tmat M_c
+   & = \rmat T &  & \left[\begin{array}{ c : c : c : c }
+                              \rmat B         &
+                              \rmat A \rmat B &
+                              \dots           &
+                              \rmat A^{n-1} \rmat B
+                            \end{array}\right],
+  \\
+  \tmat M_c
+   & = \rmat T &  & \rmat M_c.
+\end{alignat}
+\egroup
+
+Ezek alapján a transzformációs mátrix az alábbi képlettel határozható meg:
+\begin{equation}
+  \rmat T = \tmat M_c \rmat M_c^{-1}.
+  \label{eq:T-calc}
+\end{equation}
+
+Az állapotvektor és a visszacsatolási mátrixot ezen transzformációs mátrix
+ismeretében már vissza tudjuk transzformálni a kívánt alakra:
+\begin{equation}
+  \rvec x = \rmat T^{-1} \tvec x,
+  \quad \text{ és } \quad
+  \rmat K = \rmat T \tmat K.
+  \label{eq:T-back}
+\end{equation}
+
+\paragraph{Ackermann-formula}
+
+$\rmat K$ visszacsatolási mátrix az alábbi képlettel is meghatározható:
+\begin{equation}
+  \rmat K
+  = \uvec e_n^\T
+  \;\rmat M_c^{-1}
+  \;\varphi(\rmat A)
+  .
+  \label{eq:Acker-K}
+\end{equation}
+A képletben szereplő változók elnevezése:
+\bgroup
+\def\arraystretch{1.2}
+\begin{center}
+  \begin{tabular}{ | c c | }
+    \hline
+    $\rmat A, \rmat K$ & rendszer- és visszacsatolási mátrix  \\
+    $\uvec e_n^\T$     & $n$-edik egységvektor transzponáltja \\
+    $\rmat M_c^{-1}$   & az irányíthatósági mátrix inverze    \\
+    $\varphi(\rmat X)$ & elvárt pólusokat tartalmazó polinom  \\
+    \hline
+  \end{tabular}
+\end{center}
+\egroup
+
+\paragraph{Példa} Legyen egy $m$ tömegünk, melyet $f$ erővel gerjesztünk, a
+kimenet az elmozdulás, tehát $y = x$, valamint Newton törvénye alapján
+$f = ma = m \ddot x$. Az Állapottér-modell egyenletei ekkor:
+\begin{equation}
+  \begin{bmatrix}
+    \dot x \\ \ddot x
+  \end{bmatrix} = \begin{bmatrix}
+    0 & 1 \\ 0 & 0
+  \end{bmatrix} \begin{bmatrix}
+    x \\ \dot x
+  \end{bmatrix} + \begin{bmatrix}
+    0 \\ \slashfrac{1}{m}
+  \end{bmatrix} u,
+  \quad \text{ és } \quad
+  y = \begin{bmatrix}
+    1 & 0
+  \end{bmatrix} \begin{bmatrix}
+    x \\ \dot x
+  \end{bmatrix}.
+\end{equation}
+Az irányíthatósági mátrix ezek alapján:
+\begin{equation}
+  \rmat M_c = \begin{bmatrix}
+    \rmat B & \rmat A \rmat B
+  \end{bmatrix} = \begin{bmatrix}
+    0                & \slashfrac{1}{m} \\
+    \slashfrac{1}{m} & 0
+  \end{bmatrix} = \frac{1}{m} \begin{bmatrix}
+    0 & 1 \\ 1 & 0
+  \end{bmatrix},
+\end{equation}
+melynek a determinánsa nem zérus (hanem $-1/m^2$), tehát nem szinguláris,
+a rendszer irányítható. A mátrix inverze:
+\begin{equation}
+  \rmat M_c^{-1} = \frac{1}{-1/m^2} \frac{1}{m} \begin{bmatrix}
+    0 & -1 \\ -1 & 0
+  \end{bmatrix} = \begin{bmatrix}
+    0 & m \\ m & 0
+  \end{bmatrix} = m \begin{bmatrix}
+    0 & 1 \\ 1 & 0
+  \end{bmatrix}.
+\end{equation}
+Írjuk fel a kimenet és bemenet közötti kapcsolatot Laplace tartományban:
+\begin{equation}
+  Y(s) = \frac{1 / m}{s^2} U(s),
+\end{equation}
+Vezessünk be egy új állapotot:
+\begin{equation}
+  X(s):=\frac{1}{s^2} U(s)
+  \quad \rightarrow \quad
+  Y(s) = \frac{1}{m} X(s).
+\end{equation}
+Ezen egyenletek alapján az állapottér modell:
+\begin{equation}
+  \begin{bmatrix}
+    \dot x \\ \ddot x
+  \end{bmatrix} = \begin{bmatrix}
+    0 & 1 \\ 0 & 0
+  \end{bmatrix} \begin{bmatrix}
+    x \\ \dot x
+  \end{bmatrix} + \begin{bmatrix}
+    0 \\ 1
+  \end{bmatrix} u,
+  \quad \text{ és } \quad
+  y = \begin{bmatrix}
+    \slashfrac{1}{m} & 0
+  \end{bmatrix} \begin{bmatrix}
+    x \\ \dot x
+  \end{bmatrix}.
+\end{equation}
+A módisított irányíthatósági mátrix a módosított állapotegyenlet alapján:
+\begin{equation}
+  \tmat M_c = \begin{bmatrix}
+    \tmat B & \tmat A \tmat B
+  \end{bmatrix} = \begin{bmatrix}
+    0 & 1 \\
+    1 & 0
+  \end{bmatrix}
+\end{equation}
+$\rmat T$ transzformációs mátrix számításához minden adat rendelkezésre áll:
+\begin{equation}
+  \rmat T
+  = \tmat M_c \rmat M_c^{-1}
+  = \begin{bmatrix}
+    0 & 1 \\ 1 & 0
+  \end{bmatrix} m \begin{bmatrix}
+    0 & 1 \\ 1 & 0
+  \end{bmatrix} = \begin{bmatrix}
+    m & 0 \\ 0 & m
+  \end{bmatrix} = m \begin{bmatrix}
+    1 & 0 \\ 0 & 1
+  \end{bmatrix}.
+\end{equation}
+Allokáljunk új pólusokat, ezek paraméteresen: $\tilde p_1$ és $\tilde p_2$,
+ezek alapján a karakterisztikus polinom:
+\begin{equation}
+  \varphi(s)
+  = (s - \tilde p_1)(s - \tilde p_2)
+  = s^2
+  + s (-\tilde p_1 - \tilde p_2)
+  + (\tilde p_1 \tilde p_2).
+\end{equation}
+A rendszermátrix a pólusok alapján:
+\begin{equation}
+  \tilde{\tmat A} = \begin{bmatrix}
+    0                       & 1                       \\
+    - \tilde p_1 \tilde p_2 & \tilde p_1 + \tilde p_2
+  \end{bmatrix}.
+\end{equation}
+A módosított rendszermátrix együtthatói az alábbi egyenlettel számítható:
+\begin{gather}
+  \tilde{\tmat A} = \tmat A - \tmat B \tmat K,
+  \\
+  \begin{bmatrix}
+    0                       & 1                       \\
+    - \tilde p_1 \tilde p_2 & \tilde p_1 + \tilde p_2
+  \end{bmatrix} = \begin{bmatrix}
+    0 & 1 \\ 0 & 0
+  \end{bmatrix} - \begin{bmatrix}
+    0 \\ 1
+  \end{bmatrix} \begin{bmatrix}
+    \tilde k_1 & \tilde k_2
+  \end{bmatrix},
+  \\
+  \tmat K = \begin{bmatrix}
+    \tilde k_1 \\
+    \tilde k_2
+  \end{bmatrix}^\T = \begin{bmatrix}
+    \tilde p_1 \tilde p_2 \\
+    -(\tilde p_1 + \tilde p_2)
+  \end{bmatrix}^\T.
+\end{gather}
+Ezek alapján a módosítatlan rendszermátrix:
+\begin{equation}
+  \rmat K
+  = \tmat K \rmat T
+  = \begin{bmatrix}
+    \tilde k_1 & \tilde k_2
+  \end{bmatrix} \begin{bmatrix}
+    m & 0 \\ 0 & m
+  \end{bmatrix} = \begin{bmatrix}
+    m \tilde k_1 \\
+    m \tilde k_2
+  \end{bmatrix}^\T = \begin{bmatrix}
+    m (\tilde p_1 \tilde p_2) \\
+    -m (\tilde p_1 + \tilde p_2)
+  \end{bmatrix}^\T.
+\end{equation}
+$\rmat K$ mátrixot az Ackermann-formula segítségével is meg tudjuk határozni:
+\begin{gather}
+  \rmat K = \begin{bmatrix}
+    0 \\ 1
+  \end{bmatrix}^\T \begin{bmatrix}
+    0 & m \\ m & 0
+  \end{bmatrix} \left(
+  \begin{bmatrix}
+    0 & 1 \\ 0 & 0
+  \end{bmatrix}^2 - (\tilde p_1 + \tilde p_2) \begin{bmatrix}
+    0 & 1 \\ 0 & 0
+  \end{bmatrix} + \tilde p_1 \tilde p_2 \begin{bmatrix}
+    1 & 0 \\ 0 & 1
+  \end{bmatrix}
+  \right),
+  \\
+  \rmat K = \begin{bmatrix}
+    m \\ 0
+  \end{bmatrix}^\T \begin{bmatrix}
+    \tilde p_1 \tilde p_2 & -(\tilde p_1 + \tilde p_2) \\
+    0                     & \tilde p_1 \tilde p_2
+  \end{bmatrix} = \begin{bmatrix}
+    m (\tilde p_1 \tilde p_2) \\
+    -m (\tilde p_1 + \tilde p_2)
+  \end{bmatrix}^\T.
+\end{gather}
+Látható, hogy bármely módszert használva ugyanarra az eredményre jutottunk.
+

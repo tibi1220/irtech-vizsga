@@ -1,0 +1,122 @@
+\section{Kanonikus szabályozási kör felépítése}
+
+\begin{about}
+  Ismertesse a kanonikus szabályozási kör elvi felépítését, egy példán
+  keresztül mutassa be az arányos (P), az integráló (I) és a deriváló (D) tagok
+  szerepét a szabályozási körben!
+\end{about}
+
+\subsection{A szabályozási kör felépítése}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/control_loop_text}
+  \caption{A szabályozási kör elvi felépítése}
+  \label{fig:control-loop-text}
+\end{figure}
+
+A szabályozási kör három szakaszból épül fel: a szabályozóból, a szabályozott
+szakaszból, valamint a visszacsatoló tagból.
+Egy ilyen rendszertől elvárjuk, hogy stabil és megvalósítható legyen.
+A statikus pontosság (alapjelkövetés), zavar-kompenzáció és zajelnyomás is
+fontos követelmény.
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/control_loop_basic}
+  \caption{A szabályozási kör elvi felépítése}
+  \label{fig:control-loop-basic}
+\end{figure}
+
+Tanulmányaink során SISO (Single Input Single Output / 1 bemenet 1 kimenet)
+rendszerekkelfoglalkoztunk. A visszacsatoló hatást konstans egynek vettük, a
+zajt és a zavarást pedig a legtöbb esetben elhanyagoltuk. A szabályozási kör
+hatásvázlata ilyen esetben a \ref{fig:control-loop-basic}. ábrán látható.
+
+\subsection{Arányos (P) tag hatása}
+
+Alkalmazzunk arányos szabályozó tagot egy olyan szakaszon, melynek átviteli
+függvénye egytárolós jellegű vagyis:
+\begin{equation}
+  W_c(s) = P,
+  \quad \text{ és } \quad
+  W_p(s) = \frac{A}{1 + sT}
+  .
+  \label{eq:P-use-CP}
+\end{equation}
+Ekkor a referenciajel és a kimenet közötti árviteli függvény:
+\begin{equation}
+  W_{cl}(s)
+  = \frac{W_o}{1 + W_o}
+  = \frac{PA / (1 + sT)}{1 + PA / (1 + sT)}
+  = \frac{PA}{1 + sT + PA}
+  = \frac{(PA) / (1 + PA)}{1 + (sT) / (1 + PA)}
+  = \frac{\tilde A}{1 + s \tilde T}
+  .
+  \label{eq:P-use-cl}
+\end{equation}
+
+Az arányos taggal tehát gyorsítani tudjuk a rendszerünket, hiszen a jól
+megválasztott $P$ taggal a rendszer időállandója csökkenthető. Ennek hatására
+megváltozik viszont a rendszer erősítése is, maradó hibája lesz a kimenetnek,
+méghozzá $e(\infty) = 1 - \tilde A$ nagyságú. Ezt a hibát statikus
+alapjel-kompenzációval kiküszöbölhetjük. A referencia jelet egy $W_f(s) = 1 /
+  \tilde A$ átviteli függvénnyel rendelkező arányos tagon kell átvezetni annak
+érdekében, hogy a maradó hiba zérus legyen. A rendszer válasza ekkor
+egységugrásra:
+\begin{equation}
+  v(t)
+  = \frac{1}{\tilde A} \cdot \tilde A \left( 1 - e^{\slashfrac{-t}{T}} \right)
+  = 1 - e^{\slashfrac{-t}{T}}
+  \label{eq:P-use-step}
+\end{equation}
+
+\subsection{Integráló (I) tag hatása}
+
+Alkalmazzunk most I szabályozót az előző alfejezetben bemutatott egytárolós
+szakaszon. Ekkor az átviteli függvények:
+\begin{equation}
+  W_c(s) = \frac{I}{s},
+  \quad \text{ és } \quad
+  W_p(s) = \frac{A}{1 + sT}
+  .
+  \label{eq:I-use-CP}
+\end{equation}
+A referenciajel és a kimenet közötti árviteli függvény:
+\begin{equation}
+  W_{cl}(s)
+  = \frac{AI}{s(1 + sT) + AI}
+  = \frac{AI}{s^2 T + s + AI}
+  = \frac{AI / T}{s ^ 2 + s / T + AI / T}
+  = \frac{\omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2}
+  .
+  \label{eq:I-use-cl}
+\end{equation}
+
+Látható, hogy a rendszer sajátkörfrekvenciája ($\omega_n = \sqrt{AI / T}$) és
+csillapítása ($\zeta = 1 / (2 T \omega_n)$) az $I$ paraméter
+megválasztásával beállítható. Ezek a rendszer további minőségi jellemzőit
+is meg fogják határozni. A rendszer válasza egységugrásra:
+\begin{equation}
+  v(t)
+  = 1 - e^{-\zeta \omega_n t} \left(
+  \cos \omega_d t + \frac{\zeta}{\sqrt{1 - \zeta^2}}  \sin \omega_d t
+  \right)
+  .
+  \label{eq:I-use-step}
+\end{equation}
+
+\subsection{Deriváló (D) tag hatása}
+
+Alkalmazzunk most egy D tagot egy kéttárolós tag esetén. Ekkor az átviteli
+függvények:
+\begin{equation}
+  W_c(s) = Ds,
+  \quad \text{ és } \quad
+  W_p(s) = \frac{A}{s (1 + sT)}
+  .
+  \label{eq:D-use-CP}
+\end{equation}
+
+Hatása hasonló a $P$ tag hatásáéhoz, itt is maradó hiba keletkezik, úgyhogy
+önmagában nem alkalmazható.

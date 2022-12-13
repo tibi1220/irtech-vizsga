@@ -1,0 +1,61 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\input{../utils/colors}
+
+\begin{document}
+
+\usetikzlibrary{calc}
+
+\begin{tikzpicture}[
+    thick,
+    arr/.style={ultra thick, draw=darkBlue},
+    err/.style={ultra thick, draw=darkRed},
+    box/.style={
+        rectangle,
+        minimum width=1.5cm,
+        minimum  height=1cm,
+        draw=black,
+        align=center,
+        fill=yellow!5,
+      },
+    cross/.style={path picture={
+            \draw[black]
+            (path picture bounding box.south east) -- (path picture bounding box.north west) (path picture bounding
+            box.south west)
+            -- (path picture bounding box.north east);
+          }},
+    sum/.style={circle, minimum size=.75cm, draw=black, cross, fill=yellow!5},
+    ma/.style={midway, above},
+    mb/.style={midway, below},
+    ml/.style={midway, left},
+    mr/.style={midway, right},
+  ]
+  \node[sum] (sum) at (0, 0) {};
+  \node[box] (wc) at (2.5,0) {$W_c(s)$};
+  \node[sum] (sumDi) at (5, 0) {};
+  \node[box] (wp) at (7.5,0) {$W_p(s)$};
+  \node[sum] (sumDo) at (10, 0) {};
+  \node[box] (wv) at (5,-2) {$W_v(s)$};
+  \node[sum] (sumN) at (0, -2) {};
+
+  \draw[arr, to-] (sum.west) -- ++(-2,0) node[ma] {$R(s)$};
+  \draw[arr, -to] (sum) -- (wc) node[ma] {$E(s)$};
+  \draw[arr, -to] (wc) -- (sumDi) node[ma] {$U(s)$};
+  \draw[arr, -to] (sumDi) -- (wp);
+  \draw[arr, -to] (wp) -- (sumDo);
+  \draw[arr, -to] ($(sumDo.east)+(1,0)$) coordinate(T) |- (wv);
+  \draw[arr, -to] (wv) -- (sumN);
+  \draw[arr, -to] (sumN) -- (sum);
+  \draw[arr, -to] (sumDo.east) -- ++(2,0) node[ma] {$Y(s)$};
+
+  \node[below left=-3pt] at (sum.250) {$-$};
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0] at (T) {};
+
+  \draw[err, to-] (sumDi) -- ++(0,1.6) node[mr] {$D_i(s)$};
+  \draw[err, to-] (sumDo) -- ++(0,1.6) node[mr] {$D_o(s)$};
+  \draw[err, to-] (sumN) -- ++(-1.6,0) node[ma] {$N(s)$};
+\end{tikzpicture}
+\end{document}

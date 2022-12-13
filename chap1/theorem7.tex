@@ -1,0 +1,58 @@
+\section{Holtidős tag}
+
+\begin{about}
+  Ismertesse a holtidő (időkésés) fogalmát! Mutassa be a holtidős rendszerek
+  esetén a szabályozó tervezésének menetét!
+\end{about}
+
+\subsection{Holtidős tag általános jellemzői}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/time-delay}
+  \caption{Ideális holtidős tag bemenete és kimenete}
+  \label{fig:delay}
+\end{figure}
+
+A holtidő az az idő, ameddig a bemenet hatása nem érződik a kimeneten.
+
+Ideális holtidős tag kimenetén a bemenet késleltetve jelenik meg, vagyis
+$y(t) = u(t - \tau)$ egyenlőség áll fenn, ahol $\tau$ maga a holtidő. A kimenet
+és bemenet közötti átviteli függvény:
+\begin{equation}
+  y(t) = u(t - \tau)
+  \quad \rightarrow \quad
+  Y(s) = e^{-\tau s} U(s)
+  \quad \rightarrow \quad
+  W_d(s) = e^{-\tau s}
+  .
+  \label{eq:delay-W}
+\end{equation}
+
+\subsection{Szabályozó tervezés holtidős rendszerek esetén}
+
+\begin{figure}[htb]
+  \centering
+  \hspace{-4cm}
+  \includestandalone{../graphics/bode-delay}
+  \caption{
+    Holtidős tag Bode Diagramja
+    ($\tau=0,04$, $\omega_\text{krit} = \pi / 0,04 \simeq 78,54$)
+  }
+  \label{fig:delay-bode}
+\end{figure}
+
+Képezzük a holtidős tag frekvencia átviteli függvényét. Éljünk az
+$s = \iu \omega$ helyettesítéssel:
+\begin{equation}
+  W_d(\iu\omega) = e^{-\iu\omega\tau}
+  \label{eq:delay-iuw}
+\end{equation}
+Megfigyelhetjük, hogy $e^{-\iu\omega\tau}$ komplex szám hossza egységnyi
+($A(\omega) = 1$), valamint fázisszöge $\varphi(\omega) = -\omega\tau$.
+A frekvencia növekedésével a fázistartalék egyre csökken, $\omega_\text{krit} =
+  \pi / \tau$ frekvencia felett a fázistartalék negatív.
+
+Tervezéskor először kiszámoljuk a késés nélküli rendszer vágási frekvenciáját,
+majd ennek tudatában próbáljuk meg közelíteni a holtidővel rendelkező
+rendszerét.

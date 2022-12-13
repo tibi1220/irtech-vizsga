@@ -1,0 +1,120 @@
+\section{Stabilitás kritériumok}
+
+\begin{about}
+  Mutassa be lineáris időinvariáns rendszerekre vonatkozóan az alapvető
+  stabilitási definíciókat (BIBO stabilitás fogalma, magára hagyott rendszer
+  stabilitása) és azok kritériumait (Routh-Hurwitz stabilitási kritérium, Bode
+  stabilitási kritérium) szabályozási körökre alkalmazva!
+\end{about}
+
+A lineáris, időinvariáns rendszerekre jellemző, hogy érvényes rájuk a
+szuperpozíció elve, valamint ugyanarra a bemenetre időponttól függetlenül
+ugyanolyan választ adnak.
+
+\subsection{BIBO stabilitás}
+
+A BIBO (Bounded Input -- Bounded Output / Gerjesztés -- Válasz) stabilitási
+feltétel azt vizsgálja, hogy véges bemenetre adott válasz véges kimenetet
+eredményez-e. A bemenet korlátos, ha $\abs{u(t)} \leq A \le \infty$
+egyenlőtlenség fennáll, valamint azt is tudjuk, hogy az operátor tartományban
+végzett szorzás időtartományban konvolúciós integrálással ekvivalens.
+Laplace-tartományban a kimenet a bemenet és a közöttük felírt átviteli függvény
+szorzata, ezért $t$ tartományban a kimenet az alábbi alakban írható fel:
+\begin{equation}
+  y(t)
+  = \int_0^\infty w(\tau) \cdot u(t - \tau) \, \mathrm d t.
+  \label{eq:BIBO-conv}
+\end{equation}
+Majoráljuk a kimenet abszolút értékét az alábbi módon:
+\begin{equation}
+  \abs{y(t)}
+  = \abs{\int_0^\infty w(\tau) \cdot u(t - \tau) \, \mathrm d t}
+  \leq \int_0^\infty \abs{w(\tau)} \cdot \abs{u(t - \tau)} \, \mathrm d t
+  \leq A \int_0^\infty \abs{w(\tau)} \, \mathrm d t.
+  \label{eq:BIBO-major}
+\end{equation}
+Látható, hogy ha a rendszer $w(t)$ súlyfüggvénye lecsengő, állandósult értéke
+zérus, akkor az alábbi improprius integrál konvergens, a kimenet ebből
+következően véges lesz.
+
+\subsection{Magára hagyott rendszer stabilitása}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/asymptotic}
+  \caption{
+    A rendszer stabilitása valós és komplex pólusok esetén
+    ({\color{darkBlue} stabil},
+    {\color{darkYellow} határhelyzet},
+    {\color{darkRed} instabil})
+  }
+  \label{fig:asymptotic-poles}
+\end{figure}
+Az aszimptotikus stabilitási feltétel (magára hagyott rendszer stabilitása)
+azt vizsgálja meg, hogy a nyugalmi helyzetéből kimozdított rendszer visszatér-e
+az egyensúlyi helyzetébe, ha a rendszert a kimozdítás után magára hagyjuk.
+
+A szabályozott szakasz átviteli függvénye felírható az alábbi alakban:
+\begin{equation}
+  W_{cl}(s)
+  = \frac{W_c(s) W_p(s)}{1 + W_c(s) W_p(s)}
+  = \frac{W_o(s)}{1 + W_o(s)}
+  = \frac{N_o / D_o}{1 + N_o / D_o}
+  = \frac{N_o}{N_o + D_o}
+  .
+  \label{eq:asymptotic-cl}
+\end{equation}
+Készítsünk karakterisztikus polinomot, amely $N_o$ és $D_o$ polinomok
+összegeként állítunk elő. Vizsgáljuk meg ezen polinom gyökeit. Megállapíthatjuk,
+hogy amennyiben a gyökök valós részei negatívok, akkor a rendszer stabil lesz,
+a kimenet állandósult értéke zérus.
+
+\subsection{Routh-Hurwitz stabilitási kritérium}
+
+A $p(s) = N_o + D_o$ karakterisztikus polinom gyökei bizonyos fokszám fölött
+nehezen megtalálhatóak. Ilyen esetben alkalmazhatjuk a Routh-Hurwitz
+kritériumot. Hozzuk a karakterisztikus polinomot az alábbi alakra:
+\begin{equation}
+  p(s) = a_n s^n + a_{n-1} s^{n-1} + \dots + a_1 s + a_0.
+  \label{eq:RH-poles}
+\end{equation}
+
+A stabilitás szükséges feltétele, hogy a polinom együtthatói azonos előjelűek
+legyenek, vagyis $\sgn a_0 = \sgn a_1 = ... = \sgn a_n$.
+
+A stabilitás elégséges feltétele pedig, hogy a Hurwitz-mátrix minden egyes
+főátlójára feszített aldeterminánsa azonos előjelű legyen. Ezen mátrix az
+alábbi alakban írható fel:
+\begin{equation}
+  \rmat H = \begin{bmatrix}
+    a_{n-1} & a_{n-3} & a_{n-5} & \hdots & 0      \\
+    a_{n}   & a_{n-2} & a_{n-4} & \hdots & 0      \\
+    0       & a_{n-1} & a_{n-3} & \hdots & 0      \\
+    \vdots  & \vdots  & \vdots  & \ddots & \vdots \\
+    0       & 0       & 0       & \hdots & a_0    \\
+  \end{bmatrix}
+  .
+  \label{eq:RH-matrix}
+\end{equation}
+
+\subsection{Bode stabilitási kritérium}
+
+\begin{figure}[htb]
+  \centering
+  \hspace{-4cm}
+  \includestandalone{../graphics/bode-PM}
+  \caption{Rendszer {\color{darkRed} fázis}- és {\color{darkYellow} erősítés}tartaléka}
+  \label{fig:Bode-PM}
+\end{figure}
+
+A stabilitás vizsgálatot a Bode-diagram alapján is elvégezhetjük. Vizsgáljuk
+a felnyitott kör átviteli függvényét. Éljünk az $s = \iu \omega$ formális
+helyettesítéssel. Keressük meg $\omega_c$ vágási körfrekvenciát, ahol az
+erősítés egységnyi ($\abs{W_o(\iu \omega_c)} = A(\omega_c) = 1 = 0 \,
+  \mathrm{dB}$). Számítsuk ki a fázistartalékot az alábbi képlettel:
+\begin{equation}
+  \varphi_t = \varphi(\omega_c) - (- \pi)
+  .
+  \label{eq:Bode-PM}
+\end{equation}
+Amennyiben a fázistartalék pozitív, a rendszer stabil.

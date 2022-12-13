@@ -1,0 +1,272 @@
+\section{Állapot megfigyelhetőség}
+
+\begin{about}
+  Folytonos idejű, lineáris, időinvariáns (LTI) rendszerek esetén mutassa be az
+  állapot megfigyelhetőség definícióját, illetve a vizsgálathoz alkalmazott
+  Kálmán-féle rangfeltételt! Vezesse le az állapot-megfigyelő tervezéséhez
+  szükséges összefüggéseket hasonlósági transzformáció alkalmazása esetén!
+  Válaszában térjen ki az Ackermann-formula alkalmazására is!
+\end{about}
+
+\subsection{LTI rendszerek állapot megfigyelhetősége}
+
+\paragraph{Megfigyelhetőség}
+
+Az $\rvec x_0$ kezdeti állapot megfigyelhető, ha az $\rvec u(t)$ és $\rvec y(t)$
+$t \in (t_0; t_f)$ intervallumon vett értékei alapján meghatározható.
+
+\paragraph{Rekonstruálhatóság}
+
+Az $\rvec x(t)$ állapot előállítható $\rvec y(t)$ és $\rvec u(t)$ jelen- és
+múltbeli állapotai alapján.
+
+\paragraph{Kálmán-féle rangfeltétel}
+
+Adott $n$ dimenziójú állapottér akkor megfigyelhető, hogy ha az $\rmat M_o$
+megfigyelhetőségi mátrix rangja $n$, vagyis:
+\begin{gather}
+  \rank \rmat M_o = \dim \rmat A = n
+  \quad - \quad \text{MIMO},
+  \\
+  \det \rmat M_o \neq 0
+  \quad - \quad \text{SISO}.
+\end{gather}
+
+Az megfigyelhetőségi mátrix az alábbi alakban írható fel:
+\bgroup
+\def\arraystretch{1.2}
+\begin{equation}
+  \rmat M_o = \left[\begin{array}{ c }
+      \rmat C         \\ \hdashline[3pt/3pt]
+      \rmat C \rmat A \\ \hdashline[3pt/3pt]
+      \vdots          \\ \hdashline[3pt/3pt]
+      \rmat C \rmat A^{n-1}
+    \end{array}\right]
+  .
+\end{equation}
+\egroup
+
+\subsection{Állapot-megfigyelő felépítése}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/state-observer}
+  \caption{Az állapot-megfigyelő hatásvázlata}
+  \label{fig:state-observer}
+\end{figure}
+
+Állapot-megfigyelő tervezése során feltételezzük, hogy az összes állapot a
+rendelkezésünkre áll. A célunk, hogy az összes állapot ismert legyen.
+
+A rendszer és a megfigyelő egyenletei:
+\begin{alignat}{9}
+  \dot{\rvec x} & = \rmat A \rvec x + \rmat B \rvec u
+                &
+                & \text{állapotegyenlet,}
+  \\
+  \rvec y       & = \rmat C \rvec x
+                &
+                & \text{kimeneti egyenlet,}
+  \\
+  \dot{\hvec x} & = \rmat F \hvec x + \rmat L \rvec y + \rmat H \rvec u \quad \quad
+                &
+                & \text{megfigyelő egyenlete.}
+\end{alignat}
+
+Célunk, hogy a hiba állandósult állapota zérus legyen. A hiba felírható az
+eredeti és a megfigyelt állapot különbségeként, vagyis:
+\begin{equation}
+  \rvec e = \rvec x - \hvec x
+  \quad \rightarrow \quad
+  \dot{\rvec e} = \dot{\rvec x} - \dot{\hvec x}
+  = \rmat A \rvec x
+  + \rmat B \rvec u
+  - \rmat L \hvec x
+  - \rmat L \rvec y
+  - \rmat H \rvec u
+  .
+\end{equation}
+Végezzük el a kiemeléseket, valamint használjuk az $\rvec y = \rmat C \rvec x$
+kimeneti összefüggést:
+\begin{equation}
+  \dot{\rvec e}
+  = (\rmat A - \rmat L \rmat C) \rvec x
+  - \rmat F \hvec x
+  + (\rmat B - \rmat H) \rvec u
+  .
+\end{equation}
+A hiba deriváltja állandósult állapotban zérus, definiáljuk tehát az alábbi
+változókat ezen gondolat szellemében (xd):
+\begin{equation}
+  \rmat F := \rmat A - \rmat L \rmat C,
+  \quad \text{ és } \quad
+  \rmat H := \rmat B.
+\end{equation}
+Ekkor az egyenletünk az alábbi alakra egyszerűsödik:
+\begin{equation}
+  \dot{\rvec e}
+  = (\rvec A - \rvec L \rvec C) (\rvec x - \hvec x)
+  = \rmat F \rvec e.
+\end{equation}
+A hibára felírt diffegyenlet megoldása idő tartományban:
+\begin{equation}
+  \rvec e(t)
+  = \rvec e_0 \cdot e^{\rmat F t}.
+\end{equation}
+A rendszer tehát akkor lesz stabil, hogyha $\rmat F = \rmat A - \rmat L \rmat C$
+mátrix sajátértékeinek valós részei negatívak.
+% $\rmat F$ mátrix sajátértékei,
+% ezáltal a rendszer pólusai is kisebbek, mint az állapot-visszacsato\-lás\-nál
+% alkalmazott $\tmat A = \rmat A - \rmat B \rmat K$ mátrix sajátértékei.
+% Itt az a célunk, hogy a hiba minél gyorsabban eltűnjön, minél hamarabb
+% lehessen irányítani.
+
+\subsection{Állapot-megfigyelő tervezése}
+
+A tervezés lépései SISO rendszerek esetén:
+\begin{enumerate}[label={\color{darkRed}\theenumi})]
+  \setcounter{enumi}{-1}
+  \item az megfigyelhetőség vizsgálata ($\det \rmat M_o \overset{?}{\neq} 0$),
+  \item megfigyelhetőségi kanonikus alakra hozás (hasonlósági transzformációval),
+  \item $\tmat L$ mátrix meghatározása az adott $\lambda_i$ sajátértékek
+        segítségével ($\tmat A_c^\T = \tmat F = \tmat A - \tmat L \tmat C$),
+  \item $\tmat L$ mátrix visszatranszformálása $\rmat L$ mátrixszá.
+\end{enumerate}
+
+Az irányíthatósági kanonikus alakra való jutáshoz hasonlóan itt is hasonlósági
+transzformációt fogunk elvégezni. Vezessük be $\rmat T: \mathbb R^n \mapsto
+  \mathbb R^n$ transzformációs mátrixot ($\rmat T \in \mathbb R^{n \times n}$,
+invertálható), majd hattassuk ezen transzformációt az állapottérre:
+\begin{alignat}{9}
+  % noindent
+	\dot{\tvec x} & = (\rmat T \rmat A \rmat T^{-1}) \tvec x + (\rmat T \rmat B) \rvec u
+                && = \tmat A \tvec x + \tmat C \tvec u
+	\\
+	\rvec y       & = (\rmat C \rmat T^{-1}) \tvec x
+                && = \tmat C \tvec x
+  % indent
+\end{alignat}
+
+$\rmat T$ transzformációs mátrix meghatározható az megfigyelhetőségi mátrix
+segítségével. Tudjuk hogy az eredeti az alábbi alakban írható fel:
+\bgroup
+\def\arraystretch{1.2}
+\begin{equation}
+  \rmat M_o = \left[\begin{array}{ c }
+      \rmat C         \\ \hdashline[3pt/3pt]
+      \rmat C \rmat A \\ \hdashline[3pt/3pt]
+      \vdots          \\ \hdashline[3pt/3pt]
+      \rmat C \rmat A^{n-1}
+    \end{array}\right]
+  .
+\end{equation}
+\egroup
+
+A transzformált megfigyelhetőségi mátrix ezek alapján:
+\bgroup
+\def\arraystretch{1.2}
+\begin{equation}
+  \tmat M_o
+  =
+  \left[\begin{array}{ c }
+      \tmat C         \\ \hdashline[3pt/3pt]
+      \tmat C \tmat A \\ \hdashline[3pt/3pt]
+      \vdots          \\ \hdashline[3pt/3pt]
+      \tmat C \tmat A^{n-1}
+    \end{array}\right]
+  =
+  \left[\begin{array}{ c }
+      \rmat C \rmat T^{-1}                                \\ \hdashline[3pt/3pt]
+      \rmat C \rmat T^{-1} (\rmat T \rmat A \rmat T^{-1}) \\ \hdashline[3pt/3pt]
+      \vdots                                              \\ \hdashline[3pt/3pt]
+      \rmat C \rmat T^{-1} (\rmat T \rmat A \rmat T^{-1})^{n-1}
+    \end{array}\right]
+  =
+  \left[\begin{array}{ c }
+      \rmat C         \\ \hdashline[3pt/3pt]
+      \rmat C \rmat A \\ \hdashline[3pt/3pt]
+      \vdots          \\ \hdashline[3pt/3pt]
+      \rmat C \rmat A^{n-1}
+    \end{array}\right] \rmat T^{-1}
+  =
+  \rmat M_o \rmat T^{-1}.
+\end{equation}
+\egroup
+
+Ezek alapján a transzformációs mátrix az alábbi képlettel határozható meg:
+\begin{equation}
+  \rmat T = \tmat M_o^{-1} \rmat M_o.
+\end{equation}
+
+A megfigyelő egyenlete:
+\begin{equation}
+  \dot{\rvec e} = (\rmat A - \rmat L \rmat C) \rvec e
+  \quad \overset{\rmat T}{\longrightarrow} \quad
+  \dot{\tvec e} = (\tmat A - \tmat L \tmat C) \tvec e .
+\end{equation}
+
+Határozzuk meg a megfigyelést jellemző $\rmat L$ mátrixot a hasonlósági
+transzformáció segítségével:
+\begin{equation}
+  (\tmat A - \tmat L \tmat C)
+  = (\rmat T \rmat A \rmat T^{-1} - \tmat L \rmat C \rmat T^{-1})
+  = (\rmat T \rmat A - \tmat L \rmat C) \rmat T^{-1}
+  = \rmat T(\rmat A - \rmat T^{-1} \tmat L \rmat C) \rmat T^{-1}.
+\end{equation}
+
+Ezek alapján:
+\begin{equation}
+  \rmat L = \rmat T^{-1} \tmat L.
+\end{equation}
+
+\paragraph{Ackermann-formula}
+
+$\rmat L$ mátrix az alábbi képlettel is meghatározható:
+\begin{equation}
+  \rmat L
+  = \varphi(\rmat A)
+  \;\rmat M_o^{-1}
+  \;\uvec e_n
+  .
+\end{equation}
+A képletben szereplő változók elnevezése:
+\bgroup
+\def\arraystretch{1.2}
+\begin{center}
+  \begin{tabular}{ | c c | }
+    \hline
+    $\uvec e_n$        & $n$-edik egységvektor               \\
+    $\rmat M_c^{-1}$   & az irányíthatósági mátrix inverze   \\
+    $\varphi(\rmat X)$ & elvárt pólusokat tartalmazó polinom \\
+    \hline
+  \end{tabular}
+\end{center}
+\egroup
+
+\subsection{Kapcsolat az állapot-irányíthatóság és a megfigyelhetőség között}
+
+Az Ackermann-formulák hasonlóak:
+
+\begin{gather}
+  \rmat K
+  = \uvec e^\T_n
+  \,\rmat M_c^{-1}
+  \,\varphi(\rmat A)
+  ,
+  \\
+  \rmat L
+  = \varphi(\rmat A)
+  \,\rmat M_o^{-1}
+  \,\uvec e_n
+  .
+\end{gather}
+
+A rendszer- kimeneti és bemeneti mátrixok közötti kapcsolat pedig:
+\begin{gather}
+  \rmat A_o = \rmat A_c^\T, \\
+  \rmat B_o = \rmat C_c^\T, \\
+  \rmat C_o = \rmat B_c^\T, \\
+  \rmat D_o = \rmat D_c^\T.
+\end{gather}
+
+\clearpage

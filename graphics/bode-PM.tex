@@ -1,0 +1,45 @@
+\documentclass[border={-3.5cm, 0, 0, 1mm}]{standalone}
+
+\input{../utils/colors}
+\usepackage{bodeplot}
+\pgfkeys{/pgf/plot/gnuplot call={cd build && gnuplot}}
+
+\begin{document}
+\BodeTF[%
+plot/mag/{darkBlue,thick},
+plot/ph/{darkBlue,thick},
+axes/mag/{
+ylabel={Erősítés [dB]},
+ytick distance=40,
+},
+axes/ph/{
+xlabel={Körfrekvencia [1/s]},
+ylabel={Fázis [$^{\circ}$]},
+ytick distance=45,
+},
+commands/mag/{
+\draw[thick, darkRed] (axis cs:0.01,0)
+to (axis cs:0.682,0)
+to (axis cs:0.682,-150);
+\draw[thick, darkYellow]
+(axis cs:0.01,-6.02)
+to (axis cs:1,-6.02)
+to (axis cs:1,-150);
+},
+commands/ph/{
+\draw[thick, darkRed] (axis cs:0.01,-158.6)
+to (axis cs:0.682,-158.6) coordinate (T)
+to (axis cs:0.682,-60)
+(T) to (axis cs:0.682,-300);
+\draw[thick, darkYellow] (axis cs:0.01,-180)
+to (axis cs:1,-180) coordinate (T)
+to (axis cs:1,-60)
+(T) to (axis cs:1,-300);
+},
+]{% 
+num/{1},
+den/{1,2,1,0}%
+}
+{0.01}
+{100}
+\end{document}

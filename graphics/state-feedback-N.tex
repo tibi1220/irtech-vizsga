@@ -1,0 +1,62 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\input{../utils/colors}
+
+\newcommand{\rvec}[1]{\mathbfit{#1}}
+\newcommand{\uvec}[1]{\widehat{\mathbfit{#1}}}
+\newcommand{\rmat}[1]{\mathbf{#1}}
+
+\begin{document}
+
+\usetikzlibrary{calc}
+
+\begin{tikzpicture}[
+    thick,
+    arr/.style={ultra thick, draw=darkBlue},
+    err/.style={ultra thick, draw=darkRed},
+    box/.style={
+        rectangle,
+        minimum width=1.4cm,
+        minimum  height=1.1cm,
+        draw=black,
+        align=center,
+        fill=yellow!5,
+      },
+    cross/.style={path picture={
+            \draw[black]
+            (path picture bounding box.south east) -- (path picture bounding box.north west) (path picture bounding
+            box.south west)
+            -- (path picture bounding box.north east);
+          }},
+    sum/.style={circle, minimum size=.75cm, draw=black, cross, fill=yellow!5},
+    ma/.style={midway, above},
+    mb/.style={midway, below},
+    ml/.style={midway, left},
+    mr/.style={midway, right},
+  ]
+  \node[sum] (sum1) at (2.5,0) {};
+  \node[sum] (sum2) at (7.5,0) {};
+
+  \node[box] (X) at (0,0) {$\rmat K_{rx}$};
+  \node[box] (K) at (5,0) {$\rmat K$};
+  \node[box] (U) at (3.125,1.75) {$\rmat K_{ru}$};
+
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (H) at ($(X.west)-(.75,0)$) {};
+
+  \draw[arr,to-] (X.west) -- ++(-1.5,0) node[mb] {${\rvec r}(t)$};
+  \draw[arr,-to] (X) -- (sum1);
+  \draw[arr,-to] (sum1) -- (K);
+  \draw[arr,-to] (K) -- (sum2);
+  \draw[arr,-to] (sum2.east) -- ++(1.5,0) node[mb] {$\rvec u(t)$};
+
+  \draw[arr,-to] (H.center) |- (U);
+  \draw[arr,-to] (U) -| (sum2);
+
+  \draw[arr,to-] (sum1) -- ++(0,-1.5) node[mr] {$\rvec x(t)$};
+  \node[below right=-3pt] at (sum1.290) {$-$};
+\end{tikzpicture}
+\end{document}

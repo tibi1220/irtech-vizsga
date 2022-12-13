@@ -1,0 +1,74 @@
+\section{Párhuzamos PID szabályozó}
+
+\begin{about}
+  Párhuzamos arányos - integráló - deriváló (PID) szabályozó alkalmazása esetén
+  ismertesse a pólus-zérus kiejtésen alapuló szabályozótervezés menetét!
+  Válaszában térjen ki a másodrendű lengőtag szabályozásának esetére!
+\end{about}
+
+\subsection{A szabályozó felépítése}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/PID}
+  \caption{Párhuzamos PID szabályozó hatásvázlata}
+  \label{fig:PID}
+\end{figure}
+
+A párhuzamos PID szabályozó egy arányos, egy integráló, és egy deriváló tag
+összegeként áll elő. Egyenlete \textbf{ideális esetben}, operátor tartományban:
+\begin{equation}
+  W(s) = P + I / s + Ds.
+  \label{eq:PID-s}
+\end{equation}
+A szabályozó egységugrásra adott válasza \textbf{ideális esetben},
+időtartományban:
+\begin{equation}
+  v(t) = P + I t + D \dirac(t).
+  \label{eq:PID-step}
+\end{equation}
+
+A valóságban ideális differenciáló tag nem létezik, tehát a PID szabályozó
+átviteli függvénye \textbf{valóságos esetben}:
+\begin{equation}
+  W(s) = P + \frac{I}{s} + \frac{Ds}{1 + D's}.
+  \label{eq:PID-real-s}
+\end{equation}
+\textbf{Megvalósítható} PID ugrás válasza pedig:
+\begin{equation}
+  v(t) = P + It + \left(\frac{D}{D'}\right) e^{\slashfrac{-t}{D'}}.
+  \label{eq:PID-real-step}
+\end{equation}
+
+\subsection{Másodrendű lengőtag szabályozása}
+
+A \textbf{másodfokú lengőtag} átviteli függvénye:
+\begin{equation}
+  W_p(s)
+  = \frac{A \omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2}
+  = \frac{A}{1 + 2 \zeta T s + T^2 s^2}
+  .
+  \label{eq:W-ref}
+\end{equation}
+
+\textbf{Ideális PID szabályozó} egyenlete időállandós alakban
+($T_I = P / I$ és $T_D = D / P$):
+\begin{equation}
+  W_c(s)
+  = P \left( 1 + \frac{I}{P}\frac{1}{s} + \frac{D}{P}s \right)
+  = P \left( 1 + \frac{1}{sT_I} + sT_D \right)
+  = P \left( \frac{1 + sT_I + s^2 T_I T_D}{sT_I} \right)
+  .
+  \label{eq:PID-T}
+\end{equation}
+Ekkor a szabályozó $I$ és $D$ paraméterei:
+\begin{equation}
+  T_I  = 2 \zeta T
+  , \quad \text{ és } \quad
+  T_D = T / (2\zeta).
+  \label{eq:PID-ID}
+\end{equation}
+
+\textbf{Megvalósítható PID} esetén is az előbb kiszámított időállandókat
+alkalmazzuk, az extra időállandó pedig: $T_D' = nT_D$, ahol $n = 10$
+(általában).

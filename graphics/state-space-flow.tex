@@ -1,0 +1,65 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\input{../utils/colors}
+
+\newcommand{\rvec}[1]{\mathbfit{#1}}
+\newcommand{\uvec}[1]{\widehat{\mathbfit{#1}}}
+\newcommand{\rmat}[1]{\mathbf{#1}}
+
+\begin{document}
+
+\usetikzlibrary{calc}
+
+\begin{tikzpicture}[
+    thick,
+    arr/.style={ultra thick, draw=darkBlue},
+    err/.style={ultra thick, draw=darkRed},
+    box/.style={
+        rectangle,
+        minimum width=1.4cm,
+        minimum  height=1.1cm,
+        draw=black,
+        align=center,
+        fill=yellow!5,
+      },
+    cross/.style={path picture={
+            \draw[black]
+            (path picture bounding box.south east) -- (path picture bounding box.north west) (path picture bounding
+            box.south west)
+            -- (path picture bounding box.north east);
+          }},
+    sum/.style={circle, minimum size=.75cm, draw=black, cross, fill=yellow!5},
+    ma/.style={midway, above},
+    mb/.style={midway, below},
+    ml/.style={midway, left},
+  ]
+  \node[box] (I) at (0,0) {$\displaystyle\int$};
+  \node[box] (A) at (0,-1.5) {$\rmat A$};
+  \node[box] (B) at (-4,0) {$\rmat B$};
+  \node[box] (C) at (3,0) {$\rmat C$};
+  \node[box] (D) at (0,1.5) {$\rmat D$};
+
+  \node[sum] (sum1) at (-2,0) {};
+  \node[sum] (sum2) at (5,0) {};
+
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (Ah) at ($(I)!0.5!(C)$) {};
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (Dh) at ($(B.west)-(.75,0)$) {};
+
+  \draw[arr,to-] (B.west) -- ++(-1.5,0) node[mb] {$\rvec u(t)$};
+  \draw[arr,-to] (B) -- (sum1);
+  \draw[arr,-to] (sum1) -- (I) node[ma] {$\dot{\rvec x}(t)$};
+  \draw[arr,-to] (I) -- (C) node[ma] {$\rvec x(t)$};
+  \draw[arr,-to] (C) -- (sum2);
+  \draw[arr,-to] (sum2.east) --  ++(1.2,0) node[ma] {$\rvec y(t)$};
+
+  \draw[arr,-to] (A) -| (sum1);
+  \draw[arr,-to] (D) -| (sum2);
+  \draw[arr,-to] (Ah.center) |- (A);
+  \draw[arr,-to] (Dh.center) |- (D);
+\end{tikzpicture}
+\end{document}

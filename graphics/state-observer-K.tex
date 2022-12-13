@@ -1,0 +1,71 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\input{../utils/colors}
+
+\newcommand{\rvec}[1]{\mathbfit{#1}}
+\newcommand{\hvec}[1]{\hat{\mathbfit{#1}}}
+\newcommand{\rmat}[1]{\mathbf{#1}}
+
+\begin{document}
+
+\usetikzlibrary{calc}
+
+\begin{tikzpicture}[
+    thick,
+    arr/.style={ultra thick, draw=darkBlue},
+    err/.style={ultra thick, draw=darkRed},
+    box/.style={
+        rectangle,
+        minimum width=1.2cm,
+        minimum  height=1.1cm,
+        draw=black,
+        align=center,
+        fill=yellow!5,
+      },
+    cross/.style={path picture={
+            \draw[black]
+            (path picture bounding box.south east) -- (path picture bounding box.north west) (path picture bounding
+            box.south west)
+            -- (path picture bounding box.north east);
+          }},
+    sum/.style={circle, minimum size=.75cm, draw=black, cross, fill=yellow!5},
+    ma/.style={midway, above},
+    mb/.style={midway, below},
+    ml/.style={midway, left},
+  ]
+  \node[sum] (sum) at (-5,0) {};
+
+  \node[box, minimum width=4.5cm] (S) at (-1,0) {
+    $\dot{\rvec x}(t) = \rmat A \rvec x(t) + \rmat B \rvec u(t)$
+  };
+  \node[box] (C) at (2.5,0) {$\rmat C$};
+  \node[box, minimum width=5.5cm] (O) at (0,-1.5) {
+    $\dot{\hvec x}(t) = \rmat F \hvec x(t) + \rmat L \rvec y(t) + \rmat H \rvec u(t)$
+  };
+  \node[box] (K) at (-.5,-3) {$\rmat K$};
+
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (H1) at ($(sum.east)!0.5!(S.west)$) {};
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (H2) at ($(C.east)+(.75,0)$) {};
+
+  \draw[arr,to-] (sum.west) -- ++(-1.5,0) node[ma] {$\tilde{\rvec r}(t)$};
+  \draw[arr,-to] (sum) -- (S) node[ma] {$\rvec u(t)$};
+  \draw[arr,-to] (S) -- (C);
+  \draw[arr,-to] (C.east) -- ++(1.5,0) node[ma] {$\rvec y(t)$};
+  \draw[arr,-to] (O.-8) -- ++(1.5,0) node[ma] {$\hvec x(t)$};
+
+  \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0]
+  (H3) at ($(O.-8)+(.75,0)$) {};
+
+  \draw[arr,-to] (H1.center) |- (O);
+  \draw[arr,-to] (K) -| (sum);
+  \draw[arr,-to] (H2.center) |- (O.8);
+  \draw[arr,-to] (H3.center) |- (K);
+
+  \node[below right=-3pt] at (sum.290) {$-$};
+\end{tikzpicture}
+\end{document}

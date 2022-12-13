@@ -1,0 +1,33 @@
+\documentclass[border={-3cm, 0, 0, 1mm}]{standalone}
+
+\input{../utils/colors}
+\usepackage{bodeplot}
+\pgfkeys{/pgf/plot/gnuplot call={cd build && gnuplot}}
+
+\begin{document}
+\BodeZPK[%
+plot/mag/{darkBlue,thick},
+plot/ph/{darkBlue,thick},
+axes/mag/{
+ylabel={Erősítés [dB]},
+ytick distance=20,
+ymin=-30,
+ymax=30,
+},
+axes/ph/{
+xlabel={Körfrekvencia [1/s]},
+ylabel={Fázis [$^{\circ}$]},
+ytick distance=90,
+},
+commands/ph/{
+\draw[thick, darkRed] (axis cs:0.01,-180) to (axis cs:100,-180);
+\draw[thick, darkRed] (axis cs:78.54,-250) to (axis cs:78.54,30);
+},
+]{% 
+z/{1},%
+p/{1},%
+d/{0.04}%
+}
+{1e-2}
+{1e2}
+\end{document}

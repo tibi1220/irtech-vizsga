@@ -1,0 +1,195 @@
+\section{PI és PD szabályozók}
+
+\begin{about}
+  Ismertesse a PI és PD szabályozó egyenletét idő és operátor tartományban!
+  Mutassa be a pólus-zérus kiejtésen alapuló szabályozótervezés menetét!
+  Válaszában térjen ki az ideális és a megvalósítható deriváló (D) tagok
+  összefüggésére is!
+\end{about}
+
+\subsection{P, I és D tagok egyenletei}
+
+% \subsubsection{P tag}
+
+Az \textbf{arányos tag} operátor tartománybeli egyenlete: $W(s) = P$.
+Idő tartománybeli ugrás válasza:
+\begin{equation}
+  v(t) = \mathcal{L}^{-1} \{ P / s \} = P.
+  \label{eq:P-step}
+\end{equation}
+
+% \subsubsection{I tag}
+
+Az \textbf{integráló tag} operátor tartománybeli egyenlete: $W(s) = I/s$.
+Ugrás válasza:
+\begin{equation}
+  v(t) = \mathcal L^{-1} \{ I / s^2 \} = I t.
+  \label{eq:I-step}
+\end{equation}
+
+% \subsubsection{Ideális D tag}
+
+Az \textbf{ideális differenciáló} tag operátor tartománybeli egyenlete: $W(s) = Ds$.
+Ugrás válasza:
+\begin{equation}
+  v(t) = \mathcal L^{-1} \{ D \} = D \dirac(t).
+  \label{eq:D-step}
+\end{equation}
+
+% \subsubsection{Megvalósítható D tag}
+
+Az ideális differenciáló tag nem megvalósítható, hiszen a számláló fokszáma
+nagyobb a nevező fokszámánál, valamint végtelen kis idő alatt végtelen nagy
+impulzust nem tudunk előállítani. Vezessünk be egy $D'$ paramétert, amelynek
+értéke a gyakorlatban általában $D$ értékének tized része. Ekkor a
+\textbf{megvalósítható differenciáló tag} átviteli függvénye:
+\begin{equation}
+  W(s) = \frac{Ds}{1 + D's}.
+  \label{eq:D-real}
+\end{equation}
+A szabályozó ugrás válasza pedig:
+\begin{equation}
+  v(t)
+  = \mathcal L^{-1} \left\{
+  \frac{Ds}{1 + D's} \cdot \frac{1}{s}
+  \right\}
+  = \mathcal L^{-1} \left\{
+  \frac{D}{D'} \frac{1}{s + 1 / D'}
+  \right\}
+  = \left( \frac{D}{D'} \right) e^{\slashfrac{-t}{D'}}
+  \label{eq:D-real-step}
+\end{equation}
+
+\subsection{PI szabályozó}
+
+A \textbf{PI szabályozó} egy arányos és egy integráló tag ősszegeként áll elő,
+eredő átviteli függvénye:
+\begin{equation}
+  W(s) = P + \frac{I}{s}
+  .
+  \label{eq:PI-base}
+\end{equation}
+Irányítástechnikában szeretjük megadni a szabályozókat időállandós alakban,
+hozzuk ilyen alakra $W(s)$ függvényt ($T_I = P/I$):
+\begin{equation}
+  W(s)
+  = P \left( 1 + \frac{I}{sP}\right)
+  = P \left( \frac{s + I/P}{s} \right)
+  = P \left( \frac{1 + s (P/I)}{s (P/I)} \right)
+  = P \left( \frac{1 + sT_I}{sT_I} \right)
+  \label{eq:PI-time}
+\end{equation}
+
+\subsection{Ideális PD szabályozó}
+
+Egy \textbf{ideális PD szabályozó} egy arányos és egy differenciáló tag
+párhuzamos kapcsolásaként áll elő, átviteli függvénye:
+\begin{equation}
+  W(s) = P + Ds
+  .
+  \label{eq:PD-ideal-base}
+\end{equation}
+A megadás általában itt is időállandós alakban történik ($T_D = D/P$):
+\begin{equation}
+  W(s)
+  = P + Ds
+  = P \left( 1 + \frac{Ds}{P} \right)
+  = P (1 + sT_D)
+  .
+  \label{eq:PD-ideal-time}
+\end{equation}
+
+\subsection{Megvalósítható PD szabályozó}
+
+\textbf{Megvalósítható PD szabályozó} esetén valós differenciáló tagot
+alkalmazunk. Így az eredő átviteli függvény:
+\begin{equation}
+  W(s)
+  = P + \frac{Ds}{1 + D's}
+  .
+  \label{eq:PD-real-base}
+\end{equation}
+Ennek időállandós alakja:
+\begin{equation}
+  W(s)
+  = P \left( 1 + \frac{D}{P} \frac{s}{1 + sT_D'} \right)
+  = P \left( \frac{1 + s(T_D' + T_D)}{1 + sT_D'} \right)
+  \approx P \left( \frac{1 + sT_D}{1 + sT_D'} \right)
+  .
+  \label{eq:PD-real-time}
+\end{equation}
+
+\subsection{Pólus-zérus kiejtéses szabályozótervezés}
+
+Szabályozó tervezéskor a szabályozó pólusait és zérusait olyan értékűnek
+érdemes beállítani, hogy azok kiejtsék a szabályozott szakasz nevezőjének
+és számlálójának az általunk kívánt gyökeit. Fontos, hogy \textbf{csak stabil
+  pólus vagy zérus ejthető ki}.
+
+A tervezés során a szabályozott szakasz legnagyobb időállandóját szoktuk az
+integráló, míg a második legnagyobb időállandót a differenciáló tag
+időállandójának szoktuk választani, tehát $T_I = T_1$ és $T_D = T_2$.
+
+Példa PID szabályozó esetén ($T_1 > T_2 > T_3$):
+\begin{equation}
+  W_p(s) = \frac{1}{(1 + sT_1)(1 + sT_2)(1 + sT_3)},
+  \quad \text{ és } \quad
+  W_c(s) = \frac{P (1 + sT_I)(1 + sT_D)}{sT_I(1 + nsT_D)}
+  .
+\end{equation}
+Legyen $T_I = T_1$ és $T_D = T_2$, ekkor a felnyitott kör átviteli függvénye:
+\begin{equation}
+  W_o(s)
+  = \frac{1}{(1 + sT_1)(1 + sT_2)(1 + sT_3)}
+  \frac{P(1 + sT_1)(1 + sT_2)}{sT_1(1 + nsT_2)}
+  = \frac{P}{sT_1(1 + nsT_2)(1 + sT_3)}
+  .
+\end{equation}
+Az időállandókat már meghatároztuk, viszont $P$ tényező még mindig ismeretlen.
+Ennek értékét beállíthatjuk olyanra, hogy egy számunkra kívánatos
+fázistartalék jellemezze a rendszert. Ehhez először alakítsuk az átviteli
+függvényünket frekvencia átviteli függvénnyé. Éljünk az $s = \iu \omega$
+formális helyettesítéssel:
+\begin{equation}
+  W_o(\iu \omega)
+  = \frac{P}{\iu \omega T_1(1 + n \iu \omega T_2)(1 + \iu \omega T_3)}
+  .
+  \label{eq:PID-iuw}
+\end{equation}
+Határozzuk meg $\omega_c$ vágási körfrekvenciát, ahol az erősítés egységnyi.
+Ezen a frekvencián a fáziseltolás $-180^\circ$ és $\varphi_t$ fázistartalék
+összege:
+\begin{equation}
+  \arg W(\iu \omega_c)
+  = \varphi(\iu \omega_c)
+  = -\pi + \varphi_t
+  .
+  \label{eq:PID-phi}
+\end{equation}
+A vágási körfrekvencia ismert, az arányos tag értéke az alábbi egyenlettel
+számítható:
+\begin{equation}
+  \abs{W(\iu \omega_c)}
+  = A(\iu \omega_c)
+  = \frac{P}{
+    \omega_c T_1
+    \sqrt{1 + n^2 \omega_c^2 T_2^2}
+    \sqrt{1 + \omega_c^2 T_3^2}
+  } = 1
+  .
+  \label{eq:PID-A}
+\end{equation}
+Az egyenletet átrendezve:
+\begin{equation}
+  P = \omega_c T_1 \sqrt{1 + n^2 \omega_c^2 T_2^2} \sqrt{1 + \omega_c^2 T_3^2}
+  .
+  \label{eq:PID-P}
+\end{equation}
+A többi paraméter pedig:
+\begin{equation}
+  I = \frac{P}{T_I} = \frac{P}{T_1}
+  ,\quad \text{ és } \quad
+  D = P \cdot T_D = P \cdot T_2
+  .
+  \label{eq:PID-TD}
+\end{equation}

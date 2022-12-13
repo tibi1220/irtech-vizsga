@@ -1,0 +1,152 @@
+\section{Minőségi jellemzők}
+
+\begin{about}
+  Mutassa be a szabályozási körök minőségi jellemzőjének definícióit! Ismertesse
+  a minőségi követelmények alapján történő pólusválasztás módszerét! Válaszában
+  térjen ki a lineáris idő invariáns (LTI) rendszerek esetén az állapottér
+  egyenletek rendszermátrixának sajátértékei és a rendszer átviteli függvényének
+  pólusai közötti kapcsolatra is!
+\end{about}
+
+\subsection{A szabályozási körök minőségi jellemzői}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/step-response}
+  \caption{Kéttárolós lengő tag ugrás válasza}
+  \label{fig:step}
+\end{figure}
+
+Egy kéttárolós lengő tag átviteli függvénye:
+\begin{equation}
+  W(s) = \frac{A \omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2}
+  .
+  \label{eq:W-2-ref}
+\end{equation}
+
+Ennek a tagnak az ugrás válasza:
+\begin{equation}
+  v(t) = A \left(
+  1 - e^{-\zeta \omega_n t} \left(
+  \cos \omega_d t
+  + \frac{\zeta}{\sqrt{1 - \zeta^2}} \sin \omega_d t
+  \right)
+  \right)
+  .
+  \label{eq:W-2-ref-step}
+\end{equation}
+
+Az egyenletben szereplő változók elnevezése:
+\begin{center}
+  \begin{tabular}{ | c c | }
+    \hline
+    $A$        & {Erősítés}                          \\
+    $\omega_n$ & {Csillapítatlan sajátkörfrekvencia} \\
+    $\zeta$    & {Csillapítási tényező}              \\
+    $\omega_d$ & {Csillapított sajátkörfrekvencia}   \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\paragraph{Stabilitás}
+
+Egy rendszer stabil, ha a rendszermátrix sajátértékeinek valós része negatív.
+Egy rendszer pólusai között mindig páros számú komplex gyök található.
+Másodrendű rendszer esetén ezek az alábbi alakban írhatóak fel (amennyiben
+$\zeta < 1$):
+\begin{equation}
+  p_{12}
+  = -\zeta \omega_n \pm \iu \omega_n \sqrt{1 - \zeta^2}
+  = -\beta \pm \iu \omega_d.
+  \label{eq:complex-poles}
+\end{equation}
+
+\paragraph{Felfutási idő}
+
+Azt az időpillanatot, amikor a válaszfüggvény először felveszi az állandósult
+állapotot, mint függvényértéket, felfutási időnek ($t_r$ -- rise time) nevezzük.
+
+\paragraph{Beállási idő}
+
+Azt az időpillanatot, amelytől fogva a válaszfüggvény az állandósult érték
+$\alpha\%$ sugarú környezetében marad, és onnan már nem lép ki, beállási időnek
+($t_s$ -- settling time, vagy $T_{\alpha\%}$) nevezzük.
+
+\paragraph{Csúcsidő}
+
+A csúcsértékhez ($y_p$) tartozó időpillanatot csúcsidőnek ($t_p$ -- peak time)
+nevezzük.
+
+\paragraph{Százalékos túllövés}
+
+A százalékos túllövés ($\Delta v$, vagy $\mathit{PO}$) megmutatja, hogy a
+csúcsérték hány százalékban tér el az állandósult értéktől:
+\begin{equation}
+  \Delta v = \frac{y_p - y(\infty)}{y(\infty)} \cdot 100\%.
+  \label{eq:PO}
+\end{equation}
+
+\paragraph{Pólusválasztás} A rendszer pólusait $p_{12} = -\beta \pm \iu
+  \omega_d$ alakban keressük. A pólusok helyes megválasztásával beállíthatjuk
+a beállási idejét, valamint százalékos túllövését. Ezek az alábbi képletekkel
+számíthatóak:
+\begin{alignat}{9}
+  T_{\alpha\%}
+   & = \frac{1}{\beta} \cdot \ln \left( \frac{100}{\alpha} \right)
+   & = \frac{1}{\zeta \omega_n} \cdot \ln \left( \frac{100}{\alpha} \right),
+  \\[2mm]
+  \Delta v
+   & = \exp \left( \frac{-\pi \beta}{\omega_{d}} \right)
+   & = \exp \left( \frac{-\pi \zeta}{\sqrt{1 - \zeta^2}} \right).
+\end{alignat}
+
+A számításokat egyszerűbb a $\beta$ és $\omega_d$ változókra elvégezni, és
+később ezekből visszaszámolni $\zeta$ és $\omega_n$ paramétereket:
+\begin{gather}
+  \beta = \zeta \omega_n,
+  \\
+  \omega_d = \omega_n \sqrt{1 - \zeta^2}.
+\end{gather}
+
+\subsection{A rendszermátrix és a pólusok közötti kapcsolat}
+
+Az állapottér modell segítségével felírható a rendszer átviteli mátrixa
+(kezdeti feltétel: $\rvec x_0 = \nvec$):
+\begin{alignat}{9}
+   & \dot{\rvec x} (t) & = & \rmat A \rvec x(t) & + & \rmat B \rvec u(t)
+  \quad \overset{\mathcal L}{\longrightarrow} \quad
+   & s \rvec X(s)      & = & \rmat A \rvec X(s) & + & \rmat B \rvec U(s)
+  ,
+  \\
+   & \rvec y(t)        & = & \rmat C \rvec x(t) & + & \rmat D \rvec u(t)
+  \quad \overset{\mathcal L}{\longrightarrow} \quad
+   & \rvec Y(s)        & = & \rmat C \rvec X(s) & + & \rmat D \rvec U(s)
+  .
+\end{alignat}
+
+Az állapotegyenlet átrendezve:
+\begin{equation}
+  \rvec X(s) = (s\Imat - \rmat A)^{-1} \, \rmat B \rvec U(s)
+  \quad \rightarrow \quad
+  \rvec Y(s)
+  = \rmat C \, (s\Imat - \rmat A)^{-1} \, \rmat B \rvec U(s)
+  + \rmat D \rvec U(s)
+  .
+  \label{eq:SSM-S1}
+\end{equation}
+
+Az átviteli mátrix a ki- és bemenet hányadosa, vagyis:
+\begin{equation}
+  \rmat W(s)
+  = \rmat C \, (s\Imat  - \rmat A)^{-1} \, \rmat B + \rmat D
+  = \frac{
+    \rmat C \, \adj(s\Imat  - \rmat A) \, \rmat B
+    + \det(s\Imat - \rmat A) \, \rmat D
+  }{\det (s\Imat - \rmat A)}
+  .
+  \label{eq:SSM-W}
+\end{equation}
+
+Láthatjuk, hogy az előző egyenlet nevezőjének gyökei $\rmat A$ mátrix
+sajátértékei, vagyis az átviteli függvény pólusai megegyeznek a rendszermátrix
+sajátértékeivel.

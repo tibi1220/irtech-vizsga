@@ -1,0 +1,99 @@
+\section{Állapot-visszacsatolás integráló taggal}
+
+\begin{about}
+  Folytonos idejű, lineáris, időinvariáns (LTI) rendszerek esetén ismertesse az
+  integráló taggal kiegészített állapot-visszacsatolás tervezésének lépéseit!
+  Válaszában térjen ki az Ac\-kermann-formula alkalmazására is!
+\end{about}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/state-feedback-I}
+  \caption{Integráló tagos állapot-visszacsatolás hatásvázlata}
+  \label{fig:I-feedback}
+\end{figure}
+
+Az előző fejezetben létre tudtunk hozni visszacsatolás-független
+alapjelkompenzációt. Az alapjelet úgy formáltuk meg, hogy a maradó hiba
+eltűnjön. Nem foglalkoztunk viszont a rendszerre ható zajokkal, illetve a
+rendszer paraméter bizonytalanságaival. Egészítsük ki az
+állapot-visszacsatolásunkat integráló taggal.
+
+Vezessünk be egy új állapotot, amely a kimenet integráltja:
+\begin{equation}
+  x_I(t) = \int y \, \mathrm d t
+  \quad \rightarrow \quad
+  y(t) = \dot x_I(t)
+  .
+\end{equation}
+
+A kimeneti egyenlet ekkor ($K_I$ meghatározásához új pólust kell allokálni):
+\bgroup
+\def\arraystretch{1.2}
+\begin{equation}
+  u
+  = K_I \underbracket{\int r(t) \, \mathrm d t}_{=0}
+  - K_I \underbracket{\int y(t) \, \mathrm d t}_{=x_I(t)}
+  - \rmat K \rvec x(t)
+  =
+  - \underbracket{\left[\begin{array}{c ;{2.5pt/2.5pt} c}
+        \rmat K & K_I
+      \end{array}\right]}_{=\tmat K} \left[\begin{array}{c}
+      \rvec x(t)
+      \\ \hdashline[2.5pt/2.5pt]
+      x_I(t)
+    \end{array}\right]
+  = \tmat K \tvec x(t).
+\end{equation}
+\egroup
+
+A bővített állapot-egyenlet:
+\begin{gather}
+  \dot{\tmat x}(t) = \tmat A \tvec x(t) + \tmat B u(t)
+  ,
+  \\
+  \begin{bmatrix}
+    \dot{\rvec x}(t) \\ \dot x_I(t)
+  \end{bmatrix} = \begin{bmatrix}
+    \rmat A & \rmat 0 \\ \rmat C & 0
+  \end{bmatrix} \begin{bmatrix}
+    \rvec x(t) \\ x_I(t)
+  \end{bmatrix} \begin{bmatrix}
+    \rmat B \\ 0
+  \end{bmatrix} u(t)
+  .
+\end{gather}
+
+A tervezés lépései:
+\bgroup
+\def\arraystretch{1.2}
+\begin{enumerate}[label={\color{darkRed}\theenumi})]
+  \item $\tmat A$ és $\tmat B$ mátrixok meghatározása,
+  \item $\tmat M_c$ irányíthatósági mátrix meghatározása ($\dim \rmat A = n$,
+        $\dim \tmat A = n+1$):
+        \begin{equation}
+          \tmat M_c = \left[\begin{array}{ c : c : c : c }
+              \tmat B         &
+              \tmat A \tmat B &
+              \dots           &
+              \tmat A^{n} \tmat B
+            \end{array}\right],
+        \end{equation}
+  \item pólusallokálás, ezek segítségével $\varphi(s)$ karakterisztikus polinom
+        felírása:
+        \begin{equation}
+          \varphi(s) = (s - \tilde p_1)(s - \tilde p_2) \dots (s - \tilde p_{n+1}),
+        \end{equation}
+  \item Az Ackermann-formula alkalmazása:
+        \begin{equation}
+          \tmat K = \left[\begin{array}{c c c c : c}
+              k_1 & k_2 & \dots & k_n & k_I
+            \end{array}\right]
+          = \uvec e_n^\T
+          \,\tmat M_c^{-1}
+          \,\varphi({\tmat A})
+        \end{equation}
+\end{enumerate}
+\egroup
+
+\clearpage

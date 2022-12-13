@@ -1,0 +1,190 @@
+\section{Állapottér modell}
+
+\begin{about}
+  Ismertesse az állapottér modell általános alakját, valamint mutassa be a
+  különféle kanonikus alakok átviteli függvény alapján történő származtatását
+  (diagonális kanonikus alak, irányíthatósági kanonikus alak, megfigyelhetőségi
+  kanonikus alak)
+\end{about}
+
+\subsection{A modell általános alakja}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/state-space-flow}
+  \caption{Az állapottér modell hatásvázlata}
+  \label{fig:state-space}
+\end{figure}
+
+Eddig a rendszereinket frekvencia tartománybeli átviteli függvényekkel
+jellemeztük. Az $Y(s) = W(s) U(s)$ egyenletet időtartományban egy $n$-ed
+rendű differenciálegyenlet reprezentálja:
+\begin{equation}
+  a_{n  } y^{(n)  }(t)
+  +
+  % a_{n-1} y^{(n-1)}(t)
+  % +
+  \dots
+  +
+  a_1 y'(t)
+  +
+  a_0 y(t)
+  =
+  b_{r  } u^{(r)  }(t)
+  +
+  % b_{r-1} u^{(r-1)}(t)
+  % +
+  \dots
+  +
+  b_1 u'(t)
+  +
+  b_0 u(t)
+  .
+  \label{eq:YWU-time}
+\end{equation}
+
+Egy $n$-ed rendű differenciálegyenlet felírható $n$ darab elsőrendű
+differenciálegyenlettel. Ez maga az állapottér modell:
+\begin{alignat}{9}
+   & \dot{\rvec x} (t)       & =                         & \rmat A \rvec x(t) & + & \rmat B \rvec u(t)
+   & \quad \rightarrow \quad & \text{állapotegyenlet,}
+  \\
+   & \rvec y (t)             & =                         & \rmat C \rvec x(t) & + & \rmat D \rvec u(t)
+   & \quad \rightarrow \quad & \text{kimeneti egyenlet.}
+\end{alignat}
+
+Az állapottér modell felírásához bevezetjük az \textbf{állapot} fogalmát:
+az állapot a múlt összesített hatása, bármely időpillanatban leírja a rendszer
+viselkedését. Az \textbf{állapotváltozó} a rendszer egyértelmű leírásához
+szükséges minimális számú változók vektora.
+
+Az állapottér modellben szereplő vektorok és mátrixok dimenziója:
+\bgroup
+\def\arraystretch{1.2}
+\begin{center}
+  \begin{tabular}{| c | c |}
+    \hline
+    \begin{tabular}{ c c }
+      $\rvec x(t) \in \mathbb R^n$ & {állapotvektor}   \\
+      $\rvec u(t) \in \mathbb R^m$ & {bemeneti vektor} \\
+      $\rvec y(t) \in \mathbb R^p$ & {kimeneti vektor} \\
+    \end{tabular}
+     &
+    \begin{tabular}{ c c }
+      $\rmat A \in \mathbb{R}^{n \times n}$ & {rendszermátrix}      \\
+      $\rmat B \in \mathbb{R}^{n \times m}$ & {bemeneti mátrix}     \\
+      $\rmat C \in \mathbb{R}^{p \times n}$ & {kimeneti mátrix}     \\
+      $\rmat D \in \mathbb{R}^{p \times m}$ & {előrecsatoló mátrix} \\
+    \end{tabular}
+    \\\hline
+  \end{tabular}
+\end{center}
+\egroup
+
+\subsection{Kanonikus alakok származtatása}
+
+\paragraph{Diagonális kanonikus alak}
+
+A diagonális kanonikus alak kialakításánál célunk, hogy az $\rmat A$
+\textbf{rendszermátrix diagonális} legyen. Vegyünk példának egy kéttárolós
+átviteli függvényt:
+\begin{equation}
+  W(s) = \frac{K}{(s - p_1)(s- p_2)}.
+\end{equation}
+Bontsuk parciális törtekké a kifejezést:
+\begin{equation}
+  W(s) = \frac{A}{s - p_1} + \frac{B}{s - p_2}.
+\end{equation}
+Az átviteli függvény a bemenet és a kimenet kapcsolatát adja meg. Írjuk fel
+tehát a kimeneti egyenletet $s$ tartományban, majd definiáljunk ennek
+segítségével két állapotváltozót:
+\begin{equation}
+  Y(s)
+  = W(s) U(s)
+  = A \left( \frac{U(s)}{s - p_1} \right)
+  + B \left( \frac{U(s)}{s - p_2} \right)
+  := A X_1(s) + B X_2(s)
+  .
+\end{equation}
+Hozzuk létre az állapot-egyenleteket is operátor, majd idő tartományban:
+\begin{gather}
+  X_1(s) = \frac{U(s)}{s - p_1}
+  \quad \rightarrow \quad
+  s X_2(s) = U(s) + p_1 X(s)
+  \quad \rightarrow \quad
+  \dot x_1(t) = u(t) + p_1 x_1(t)
+  \\
+  X_2(s) = \frac{U(s)}{s - p_2}
+  \quad \rightarrow \quad
+  s X_2(s) = U(s) + p_2 X(s)
+  \quad \rightarrow \quad
+  \dot x_2(t) = u(t) + p_2 x_2(t)
+\end{gather}
+Az állapottér egyenletei ezen információk alapján:
+\begin{equation}
+  \dot{\rvec x}(t) = \begin{bmatrix}
+    p_1 & 0 \\ 0 & p_2
+  \end{bmatrix} \rvec x(t) + \begin{bmatrix}
+    1 \\ 1
+  \end{bmatrix} u(t),
+  \quad \text{ és } \quad
+  y(t) = \begin{bmatrix}
+    A & B
+  \end{bmatrix} \rvec x(t).
+\end{equation}
+
+\paragraph{Irányíthatósági kanonikus alak}
+
+Az irányíthatósági alak származtatásához induljunk ki az alábbi átviteli
+függvényből:
+\begin{equation}
+  W(s) = \frac{A \omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}.
+\end{equation}
+Írjuk fel a kimeneti egyenletet, majd definiáljuk az állapotváltozókat:
+\begin{equation}
+  Y(s)
+  = W(s) U(s)
+  = A \omega_n^2 \left(\frac{U(s)}{s^2 + 2 \zeta \omega_n s + \omega_n^2}\right)
+  := A \omega_n^2 X(s).
+\end{equation}
+Az állapotegyenlet operátor és idő tartományban:
+\begin{equation}
+  X(s)
+  = \frac{U(s)}{s^2 + 2 \zeta \omega_n s + \omega_n^2}
+  \quad \rightarrow \quad
+  % s^2 X(s) = - 2 \zeta \omega_n s X(s) - \omega_n^2 X(s) + U(s)
+  % \quad \rightarrow \quad
+  \ddot x(t) = -2 \zeta \omega_n \dot x(t) - \omega_n^2 x(t) + u(t).
+\end{equation}
+A második állapotváltozót válasszuk meg az eredeti állapotváltozó deriváltjának,
+ekkor az állapottér egyenletei:
+\begin{equation}
+  \begin{bmatrix}
+    \dot x(t) \\ \ddot x(t)
+  \end{bmatrix} = \begin{bmatrix}
+    0           & 1                  \\
+    -\omega_n^2 & - 2 \zeta \omega_n
+  \end{bmatrix} \begin{bmatrix}
+    x(t) \\ \dot x(t)
+  \end{bmatrix} + \begin{bmatrix}
+    0 \\ 1
+  \end{bmatrix} u(t),
+  \quad \text{ és } \quad
+  y(t) = \begin{bmatrix}
+    A \omega_n^2 & 0
+  \end{bmatrix} \begin{bmatrix}
+    x(t) \\ \dot x(t)
+  \end{bmatrix}.
+\end{equation}
+
+\paragraph{Megfigyelhetőségi kanonikus alak} A megfigyelhetőségí kanonikus alak
+az irányíthatósági kanonikus alakból származtatható az alábbi összefüggések
+alapján:
+\begin{equation}
+  \rmat A_o = \rmat A_c^\T, \quad
+  \rmat B_o = \rmat C_c^\T, \quad
+  \rmat C_o = \rmat B_c^\T, \quad
+  \rmat D_o = \rmat D_c^\T.
+\end{equation}
+
+\clearpage

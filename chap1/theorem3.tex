@@ -1,0 +1,85 @@
+\section{Kanonikus szabályozási kör elvi felépítése}
+
+\begin{about}
+  Ismertesse a kanonikus szabályozási kör elvi felépítését, mutassa be az
+  alapjel, a zavarás és a zaj hatását, mint a rendszer bemenetei a kimenő jelre,
+  a hibajelre és a beavatkozó jelre, mint a rendszer kimenetei!
+\end{about}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/control_loop_disturbances}
+  \caption{A szabályozási kör zavarásokkal, zajjal kiegészítve}
+  \label{fig:control-loop-disturbances}
+\end{figure}
+
+\begin{multicols}{2}
+  A szabályozási kör bemenetei:
+  \begin{itemize}
+    \item $R(s)$ -- referenciajel,
+    \item $D_i(s)$ -- bemeneti zavarás,
+    \item $D_o(s)$ -- kimeneti zavarás,
+    \item $N(s)$ -- zaj.
+  \end{itemize}
+
+  A szabályozási kör kimenetei:
+  \begin{itemize}
+    \item $Y(s)$ -- kimenőjel,
+    \item $E(s)$ -- hibajel,
+    \item $U(s)$ -- beavatkozó jel.
+  \end{itemize}
+\end{multicols}
+
+A bemenetek hatása a kimenőjelre:
+\begin{equation}
+  Y(s)
+  = \left( \frac{W_c W_p} {1 + W_o} \right) R(s)
+  + \left( \frac{W_p}     {1 + W_o} \right) D_i(s)
+  + \left( \frac{1}       {1 + W_o} \right) D_o(s)
+  + \left( \frac{-W_c W_p}{1 + W_o} \right) N(s)
+  .
+  \label{eq:disturbances-Y}
+\end{equation}
+
+A bemenetek hatása a beavatkozó jelre:
+\begin{equation}
+  U(s)
+  = \left( \frac{W_c}     {1 + W_o} \right) R(s)
+  + \left( \frac{-W_o}    {1 + W_o} \right) D_i(s)
+  + \left( \frac{-W_c W_v}{1 + W_o} \right) D_o(s)
+  + \left( \frac{-W_c}    {1 + W_o} \right) N(s)
+  .
+  \label{eq:disturbances-U}
+\end{equation}
+
+A bemenetek hatása a hibajelre:
+\begin{equation}
+  E(s)
+  = \left( \frac{1}       {1 + W_o} \right) R(s)
+  + \left( \frac{-W_p W_v}{1 + W_o} \right) D_i(s)
+  + \left( \frac{-W_v}    {1 + W_o} \right) D_o(s)
+  + \left( \frac{-1}      {1 + W_o} \right) N(s)
+  .
+  \label{eq:disturbances-E}
+\end{equation}
+
+A korábbi egyenletekben $W_o(s)$ a felnyitott kör átviteli függvénye, amely
+az alábbi módon számítható:
+\begin{equation}
+  W_o(s) = W_c(s) W_p(s) W_v(s)
+  .
+  \label{eq:disturbances-o}
+\end{equation}
+
+Számításaink során gyakran egyszerűsítéseket teszünk. Elhanyagoljuk a kimeneti
+zavarást, $W_v(s)$ függvény értékét pedig egységnyinek válasszuk meg.
+Ebben az esetben a kimenet és a referenciajel között felírt átviteli függvény --
+melyet gyakran a zárt szabályozási kör átviteli függvényének is nevezünk --
+az alábbi alakra redukálódik:
+\begin{equation}
+  W_{cl}
+  = \frac{W_c W_p}{1 + W_c W_p}
+  = \frac{W_o}{1 + W_o}
+  .
+  \label{eq:disturbances-cl}
+\end{equation}

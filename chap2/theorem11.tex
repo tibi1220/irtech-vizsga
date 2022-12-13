@@ -1,0 +1,174 @@
+\section{Alapjelkompenzáció}
+
+\begin{about}
+  Folytonos idejű, lineáris, időinvariáns (LTI) rendszerek esetén ismertesse
+  az alapjelkompenzációval kiegészített állapot-visszacsatolás tervezésének
+  lépéseit! Vezesse le az állapot-visszacsatolástól függő és független
+  alapjelkompenzáció meghatározására szolgáló összefüggéseket!
+\end{about}
+
+Állapot-visszacsatolás esetén a rendszer maradó hibája nem zérus, érdemes
+alapjelkompenzációt alkalmazni, hogy ne legyen a rendszernek hibája. A
+kompenzáció lehet állapot-visszacsato\-lástól függő és független is.
+
+\subsection{Állapot-visszacsatolástól függő alapjelkompenzáció}
+
+\begin{figure}[htb]
+  \centering
+  \includestandalone{../graphics/state-feedback-K}
+  \caption{Visszacsatolástól függő alapjelkompenzáció hatásvázlata}
+  \label{fig:K-feedback}
+\end{figure}
+
+Először írjuk fel az állapottér-modell egyenleteit, illetve a szabályozási
+törvényt:
+\begin{alignat}{9}
+  \dot{\rvec x}(t) & = \rmat A \rvec x(t) + \rmat B \rvec u(t),
+  \\
+  \rvec y(t)       & = \rmat C \rvec x(t),
+  \\
+  \rvec u(t)       & = \rvec r(t) - \rmat K \rvec x(t).
+\end{alignat}
+Az állapot-egyenletbe helyettesítsük be a szabályozási törvényt:
+\begin{equation}
+  \dot{\rvec x}
+  = (\rmat A - \rmat B \rmat K)\rvec x(t) + \rmat B \rvec r(t)
+  = \tmat A \rvec x(t) + \rmat B \rvec r(t).
+\end{equation}
+Térjünk át operátor tartományba, és fejezzük ki a kimenetet:
+\begin{equation}
+  (s \Imat - \tmat A) \rvec X(s) = \rmat B \rvec R(s)
+  \quad \rightarrow \quad
+  \rvec Y(s) = \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \rvec R(s).
+\end{equation}
+Az állandósult állapot meghatározásához alkalmazzuk a végérték-tételt:
+\begin{equation}
+  \rvec y(\infty)
+  = \lim_{s \rightarrow 0} s \rvec Y(s)
+  = \lim_{s \rightarrow 0} s \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \, \frac{\rvec r_0}{s}
+  = \lim_{s \rightarrow 0} \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \rvec r_0
+  = - \rmat C \tmat A^{-1} \rmat B \, \rvec r_0.
+\end{equation}
+Látható, hogy a kimenet állandósult értéke a referenciajel konstans szorosa
+lesz. Ha az alapjelet formáljuk, és ezzel az ún. erősítéssel leosztjuk értékét,
+akkor a kimenet értéke meg fog egyezni a referenciajel értékével, a maradó hiba
+eltűnik:
+\begin{equation}
+  \rmat K_r = -(\rmat C \tmat A^{-1} \rmat B)^{-1}.
+\end{equation}
+
+Megfigyelhetjük, hogy $\rmat K_r$ függ a visszacsatolástól. Ez azt jelenti,
+hogy amennyiben meg szeretnénk változtatni a rendszer allokált pólusait,
+$\rmat K_r$ értékét minden egyes alkalommal újra kell számítani.
+
+\subsection{Állapot-visszacsatolástól független alapjelkompenzáció}
+
+\begin{figure}[H]
+  \centering
+  \includestandalone{../graphics/state-feedback-N}
+  \caption{Visszacsatolástól független alapjelkompenzáció hatásvázlata}
+  \label{fig:N-feedback}
+\end{figure}
+
+A visszacsatolás független alapjelkompenzáció feloldja az előbb említett
+problémát. Bontsuk fel a $\rmat K_r$ mátrixunkat az alábbi módon:
+\begin{equation}
+  \rmat K_r(\rmat K)
+  = \rmat K_{ru} + \rmat K \rmat K_{rx}
+  = \rmat N_u + \rmat K \rmat N_x.
+\end{equation}
+Ekkor a szabályozó egyenlete az alábbi alakot veszi fel:
+\begin{equation}
+  \rvec u(t)
+  = \rmat K_r \rvec r(t) - \rmat K \rvec x(t)
+  = (\rmat K_{ru} + \rmat K \rmat K_{rx}) \rvec r(t) - \rmat K \rvec x(t)
+  = \rmat K_{ru} \rvec r(t) + \rmat K (\rmat K_{ru} \rvec r(t) - \rvec x(t))
+  .
+\end{equation}
+A cél itt is a maradó hiba elkerülése, vagyis hogy a kimenet állandósult értéke
+megegyezzen a referenciajel értékével. Írjuk fel a rendszert leíró egyenleteket:
+\begin{alignat}{9}
+  % noindent
+  \dot{\rvec x}(t) & = \rmat A \rvec x(t) + \rmat B \rvec u(t)
+                   & \quad\rightarrow\quad 
+                   && \nvec 
+                   &= \rmat A \rvec x(\infty) + \rmat B \rvec u(\infty)
+                   ,
+  \\
+  \rvec y(t)       & = \rmat C \rvec x(t)
+                   & \quad\rightarrow\quad 
+                   && \rvec y(\infty) 
+                   &= \rmat C \rvec x(\infty) = \rvec r_0
+                   ,
+  \\
+  \rvec u(t)       & = \rmat K_{ru} \rvec r(t) + \rmat K (\rmat K_{ru} \rvec r(t) - \rvec x(t))
+                   & \quad\rightarrow\quad 
+                   && \rvec u(\infty) 
+                   &= \rmat K_{ru} \rvec r_0 + \rmat K (\rmat K_{ru} \rvec r_0 - \rvec x(\infty))
+                   .
+  % indent
+\end{alignat}
+Az állandósult állapotban $\rvec x(\infty) = \rmat K_{rx} \rvec r_0$ egyenlőség
+fennáll, hiszen nincs maradó hibánk. Helyettesítsük be a szabályozó egyenletét
+az állapot-egyenletbe:
+\begin{equation}
+  \nvec
+  = \rmat A \rvec x(\infty) + \rmat B \rvec u(\infty)
+  = \rmat A \rmat K_{rx} \rvec r_0 + \rmat B \rmat K_{ru} \rvec r_0
+  .
+\end{equation}
+A kimeneti egyenletből pedig következik, hogy:
+\begin{equation}
+  \rvec r_0 = \rmat C \rvec x(\infty) = \rmat C \rmat K_{rx} \rvec r_0
+  \quad \rightarrow \quad
+  \rmat C \rmat K_{rx} = \Imat.
+\end{equation}
+Az előző két egyenletet felírhatjuk mátrixos alakban is:
+\bgroup
+\ADLdrawingmode{1}
+\def\arraystretch{1.2}
+\begin{equation}
+  \left[\begin{array}{ c : c }
+      \rmat A & \phantom{\rmat A} \hspace{-2.8mm}\rmat B
+      \\ \hdashline
+      \rmat C & \phantom{\rmat A} \hspace{-2.5mm}\rmat 0
+    \end{array}\right]
+  \left[\begin{array}{ c }
+      \rmat K_{rx}
+      \\ \hdashline
+      \rmat K_{ru}
+    \end{array}\right]
+  =
+  \left[\begin{array}{ c }
+      \rmat 0
+      \\ \hdashline[2.25pt/2.25pt]
+      \Imat
+    \end{array}\right]
+\end{equation}
+\egroup
+Aki szeret szenvedni, az a mindenkori matematikai átalakítások segítségével
+invertálhatja a rendszermátrixot tartalmazó hipermátrixot:
+\bgroup
+\ADLdrawingmode{1}
+\def\arraystretch{1.2}
+\begin{equation}
+  \left[\begin{array}{ c }
+      \rmat K_{rx}
+      \\ \hdashline
+      \rmat K_{ru}
+    \end{array}\right]
+  =
+  \left[\begin{array}{ c : c }
+      \rmat A & \phantom{\rmat A} \hspace{-2.8mm}\rmat B
+      \\ \hdashline
+      \rmat C & \phantom{\rmat A} \hspace{-2.5mm}\rmat 0
+    \end{array}\right]^{-1}
+  \left[\begin{array}{ c }
+      \rmat 0
+      \\ \hdashline[2.25pt/2.25pt]
+      \Imat
+    \end{array}\right]
+\end{equation}
+\egroup
+
+\clearpage
