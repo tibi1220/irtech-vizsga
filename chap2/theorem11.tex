@@ -27,28 +27,28 @@ törvényt:
   \\
   \rvec y(t)       & = \rmat C \rvec x(t),
   \\
-  \rvec u(t)       & = \rvec r(t) - \rmat K \rvec x(t).
+  \rvec u(t)       & = \tvec r(t) - \rmat K \rvec x(t).
 \end{alignat}
 Az állapot-egyenletbe helyettesítsük be a szabályozási törvényt:
 \begin{equation}
   \dot{\rvec x}
   = (\rmat A - \rmat B \rmat K)\rvec x(t) + \rmat B \rvec r(t)
-  = \tmat A \rvec x(t) + \rmat B \rvec r(t).
+  = \tmat A \rvec x(t) + \rmat B \tvec r(t).
 \end{equation}
 Térjünk át operátor tartományba, és fejezzük ki a kimenetet:
 \begin{equation}
-  (s \Imat - \tmat A) \rvec X(s) = \rmat B \rvec R(s)
+  (s \Imat - \tmat A) \rvec X(s) = \rmat B \tvec R(s)
   \quad \rightarrow \quad
-  \rvec Y(s) = \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \rvec R(s).
+  \rvec Y(s) = \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \tvec R(s).
 \end{equation}
 Az állandósult állapot meghatározásához alkalmazzuk a végérték-tételt
-($r(t) \equiv r_0$, $t>0$):
+($\tilde r(t) \equiv \tilde r_0$, $t>0$):
 \begin{equation}
   \rvec y(\infty)
   = \lim_{s \rightarrow 0} s \rvec Y(s)
-  = \lim_{s \rightarrow 0} s \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \, \frac{\rvec r_0}{s}
-  = \lim_{s \rightarrow 0} \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \rvec r_0
-  = - \rmat C \tmat A^{-1} \rmat B \, \rvec r_0.
+  = \lim_{s \rightarrow 0} s \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \, \frac{\tvec r_0}{s}
+  = \lim_{s \rightarrow 0} \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \tvec r_0
+  = - \rmat C \tmat A^{-1} \rmat B \, \tvec r_0.
 \end{equation}
 Látható, hogy a kimenet állandósult értéke a referenciajel konstans szorosa
 lesz. Ha az alapjelet formáljuk, és ezzel az ún. erősítéssel leosztjuk értékét,
