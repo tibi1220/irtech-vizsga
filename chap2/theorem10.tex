@@ -17,7 +17,7 @@ Az adott $\rvec x(t)$ állapot irányítható, ha létezik egy olyan $\rvec u(t)
 bemenet, amely véges $T$ időn belül az állapottér origójába juttatja az
 állapotokat, azaz $\rvec x(T) = \nvec$
 
-\paragraph{Kármán-féle rangfeltétel}
+\paragraph{Kálmán-féle rangfeltétel}
 
 Egy rendszer, melynek dimenziója $n$ akkor állapotirányítható, ha az $\rmat M_c$
 irányíthatósági mátrix rangja megegyezik az állapotmátrix dimenziójával, vagyis:
@@ -60,40 +60,41 @@ A tervezés lépései SISO rendszerek esetén:
   \item az irányíthatóság vizsgálata ($\det \rmat M_c \overset{?}{\neq} 0$),
   \item irányíthatósági kanonikus alakra hozás (hasonlósági transzformációval),
   \item $\tilde{\rmat K}$ mátrix meghatározása az adott $\lambda_i$ sajátértékek
-        segítségével,
+        segítségével ($\tilde{\tmat A} = \tmat A - \tmat B \tmat K$),
   \item $\tilde{\rmat K}$ mátrix visszatranszformálása $\rmat K$ mátrixszá.
 \end{enumerate}
 
 Adott egy állapottér modell állapot-visszacsatolással, melynek egyenletei
-($\tvec r = \nvec$):
+($\tvec r(t) \equiv \nvec$):
 \begin{alignat}{9}
-  \dot{\rvec x} & = \rmat A \rvec x + \rmat B \rvec u \quad \quad
-                &
-                & \text{állapotegyenlet,}
+  \dot{\rvec x(t)} & = \rmat A \rvec x(t) + \rmat B \rvec u(t) \quad \quad
+                   &
+                   & \text{állapotegyenlet,}
   \\
-  \rvec y       & = \rmat C \rvec x
-                &
-                & \text{kimeneti egyenlet,}
+  \rvec y(t)       & = \rmat C \rvec x(t)
+                   &
+                   & \text{kimeneti egyenlet,}
   \\
-  \rvec u       & = - \rmat K \rvec x
-                &
-                & \text{szabályozó egyenlete.}
+  \rvec u(t)       & = - \rmat K \rvec x(t)
+                   &
+                   & \text{szabályozó egyenlete.}
 \end{alignat}
 
 Vezessük be $\rmat T: \mathbb R^n \mapsto \mathbb R^n$ transzformációs mátrixot
 ($\rmat T \in \mathbb R^{n \times n}$, invertálható), majd hattassuk ezen
-transzformációt az előző egyenletekre:
+transzformációt az előző egyenletekre ($\tvec x(t) = \rmat T \rvec x(t)$):
 \begin{alignat}{9}
-  % noindent
-	\dot{\tvec x} & = (\rmat T \rmat A \rmat T^{-1}) \tvec x + (\rmat T \rmat B) \rvec u
-                && = \tmat A \tvec x + \tmat C \tvec u
-	\\
-	\rvec y       & = (\rmat C \rmat T^{-1}) \tvec x
-                && = \tmat C \tvec x
-	\\
-	\rvec u       & = - (\rmat K \rmat T^{-1}) \tvec x
-                && = - \tmat K \tvec x
-  % indent
+  \dot{\tvec x}(t) & = (\rmat T \rmat A \rmat T^{-1}) \tvec x(t) + (\rmat T \rmat B) \rvec u(t)
+                   &
+                   & = \tmat A \tvec x(t) + \tmat C \rvec u(t),
+  \\
+  \rvec y(t)       & = (\rmat C \rmat T^{-1}) \tvec x(t)
+                   &
+                   & = \tmat C \tvec x(t),
+  \\
+  \rvec u(t)       & = - (\rmat K \rmat T^{-1}) \tvec x(t)
+                   &
+                   & = - \tmat K \tvec x(t).
 \end{alignat}
 
 $\rmat T$ transzformációs mátrix meghatározható az irányíthatósági mátrix
@@ -153,12 +154,12 @@ Ezek alapján a transzformációs mátrix az alábbi képlettel határozható me
   \label{eq:T-calc}
 \end{equation}
 
-Az állapotvektor és a visszacsatolási mátrixot ezen transzformációs mátrix
+Az állapotvektort és a visszacsatolási mátrixot ezen transzformációs mátrix
 ismeretében már vissza tudjuk transzformálni a kívánt alakra:
 \begin{equation}
-  \rvec x = \rmat T^{-1} \tvec x,
+  \rvec x(t) = \rmat T^{-1} \tvec x(t),
   \quad \text{ és } \quad
-  \rmat K = \rmat T \tmat K.
+  \rmat K = \tmat K \rmat T.
   \label{eq:T-back}
 \end{equation}
 
@@ -193,19 +194,19 @@ kimenet az elmozdulás, tehát $y = x$, valamint Newton törvénye alapján
 $f = ma = m \ddot x$. Az Állapottér-modell egyenletei ekkor:
 \begin{equation}
   \begin{bmatrix}
-    \dot x \\ \ddot x
+    \dot x(t) \\ \ddot x(t)
   \end{bmatrix} = \begin{bmatrix}
     0 & 1 \\ 0 & 0
   \end{bmatrix} \begin{bmatrix}
-    x \\ \dot x
+    x(t) \\ \dot x(t)
   \end{bmatrix} + \begin{bmatrix}
     0 \\ \slashfrac{1}{m}
-  \end{bmatrix} u,
+  \end{bmatrix} u(t),
   \quad \text{ és } \quad
-  y = \begin{bmatrix}
+  y(t) = \begin{bmatrix}
     1 & 0
   \end{bmatrix} \begin{bmatrix}
-    x \\ \dot x
+    x(t) \\ \dot x(t)
   \end{bmatrix}.
 \end{equation}
 Az irányíthatósági mátrix ezek alapján:
@@ -243,19 +244,19 @@ Vezessünk be egy új állapotot:
 Ezen egyenletek alapján az állapottér modell:
 \begin{equation}
   \begin{bmatrix}
-    \dot x \\ \ddot x
+    \dot x(t) \\ \ddot x(t)
   \end{bmatrix} = \begin{bmatrix}
     0 & 1 \\ 0 & 0
   \end{bmatrix} \begin{bmatrix}
-    x \\ \dot x
+    x(t) \\ \dot x(t)
   \end{bmatrix} + \begin{bmatrix}
     0 \\ 1
-  \end{bmatrix} u,
+  \end{bmatrix} u(t),
   \quad \text{ és } \quad
-  y = \begin{bmatrix}
+  y(t) = \begin{bmatrix}
     \slashfrac{1}{m} & 0
   \end{bmatrix} \begin{bmatrix}
-    x \\ \dot x
+    x(t) \\ \dot x(t)
   \end{bmatrix}.
 \end{equation}
 A módisított irányíthatósági mátrix a módosított állapotegyenlet alapján:
@@ -273,8 +274,8 @@ $\rmat T$ transzformációs mátrix számításához minden adat rendelkezésre 
   = \tmat M_c \rmat M_c^{-1}
   = \begin{bmatrix}
     0 & 1 \\ 1 & 0
-  \end{bmatrix} m \begin{bmatrix}
-    0 & 1 \\ 1 & 0
+  \end{bmatrix} \begin{bmatrix}
+    0 & m \\ m & 0
   \end{bmatrix} = \begin{bmatrix}
     m & 0 \\ 0 & m
   \end{bmatrix} = m \begin{bmatrix}

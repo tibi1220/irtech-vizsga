@@ -18,7 +18,8 @@
 A párhuzamos PID szabályozó egy arányos, egy integráló, és egy deriváló tag
 összegeként áll elő. Egyenlete \textbf{ideális esetben}, operátor tartományban:
 \begin{equation}
-  W(s) = P + I / s + Ds.
+  W(s)
+  = P + I / s + Ds.
   \label{eq:PID-s}
 \end{equation}
 A szabályozó egységugrásra adott válasza \textbf{ideális esetben},
@@ -70,5 +71,5 @@ Ekkor a szabályozó $I$ és $D$ paraméterei:
 \end{equation}
 
 \textbf{Megvalósítható PID} esetén is az előbb kiszámított időállandókat
-alkalmazzuk, az extra időállandó pedig: $T_D' = nT_D$, ahol $n = 10$
+alkalmazzuk, az extra időállandó pedig: $T_D' = nT_D$, ahol $n = 1 / 10$
 (általában).

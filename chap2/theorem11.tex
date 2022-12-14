@@ -41,7 +41,8 @@ Térjünk át operátor tartományba, és fejezzük ki a kimenetet:
   \quad \rightarrow \quad
   \rvec Y(s) = \rmat C \, (s \Imat - \tmat A)^{-1} \, \rmat B \rvec R(s).
 \end{equation}
-Az állandósult állapot meghatározásához alkalmazzuk a végérték-tételt:
+Az állandósult állapot meghatározásához alkalmazzuk a végérték-tételt
+($r(t) = \step (t)$):
 \begin{equation}
   \rvec y(\infty)
   = \lim_{s \rightarrow 0} s \rvec Y(s)
@@ -82,7 +83,7 @@ Ekkor a szabályozó egyenlete az alábbi alakot veszi fel:
   \rvec u(t)
   = \rmat K_r \rvec r(t) - \rmat K \rvec x(t)
   = (\rmat K_{ru} + \rmat K \rmat K_{rx}) \rvec r(t) - \rmat K \rvec x(t)
-  = \rmat K_{ru} \rvec r(t) + \rmat K (\rmat K_{ru} \rvec r(t) - \rvec x(t))
+  = \rmat K_{ru} \rvec r(t) + \rmat K (\rmat K_{rx} \rvec r(t) - \rvec x(t))
   .
 \end{equation}
 A cél itt is a maradó hiba elkerülése, vagyis hogy a kimenet állandósult értéke
@@ -101,10 +102,10 @@ megegyezzen a referenciajel értékével. Írjuk fel a rendszert leíró egyenle
                    &= \rmat C \rvec x(\infty) = \rvec r_0
                    ,
   \\
-  \rvec u(t)       & = \rmat K_{ru} \rvec r(t) + \rmat K (\rmat K_{ru} \rvec r(t) - \rvec x(t))
+  \rvec u(t)       & = \rmat K_{ru} \rvec r(t) + \rmat K (\rmat K_{rx} \rvec r(t) - \rvec x(t))
                    & \quad\rightarrow\quad 
                    && \rvec u(\infty) 
-                   &= \rmat K_{ru} \rvec r_0 + \rmat K (\rmat K_{ru} \rvec r_0 - \rvec x(\infty))
+                   &= \rmat K_{ru} \rvec r_0 + \rmat K (\rmat K_{rx} \rvec r_0 - \rvec x(\infty))
                    .
   % indent
 \end{alignat}
@@ -144,6 +145,7 @@ Az előző két egyenletet felírhatjuk mátrixos alakban is:
       \\ \hdashline[2.25pt/2.25pt]
       \Imat
     \end{array}\right]
+  .
 \end{equation}
 \egroup
 Aki szeret szenvedni, az a mindenkori matematikai átalakítások segítségével
@@ -168,6 +170,7 @@ invertálhatja a rendszermátrixot tartalmazó hipermátrixot:
       \\ \hdashline[2.25pt/2.25pt]
       \Imat
     \end{array}\right]
+  .
 \end{equation}
 \egroup
 

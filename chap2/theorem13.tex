@@ -60,39 +60,39 @@ rendelkezésünkre áll. A célunk, hogy az összes állapot ismert legyen.
 
 A rendszer és a megfigyelő egyenletei:
 \begin{alignat}{9}
-  \dot{\rvec x} & = \rmat A \rvec x + \rmat B \rvec u
-                &
-                & \text{állapotegyenlet,}
+  \dot{\rvec x}(t) & = \rmat A \rvec x(t) + \rmat B \rvec u(t)
+                   &
+                   & \text{állapotegyenlet,}
   \\
-  \rvec y       & = \rmat C \rvec x
-                &
-                & \text{kimeneti egyenlet,}
+  \rvec y(t)       & = \rmat C \rvec x(t)
+                   &
+                   & \text{kimeneti egyenlet,}
   \\
-  \dot{\hvec x} & = \rmat F \hvec x + \rmat L \rvec y + \rmat H \rvec u \quad \quad
-                &
-                & \text{megfigyelő egyenlete.}
+  \dot{\hvec x}(t) & = \rmat F \hvec x(t) + \rmat L \rvec y(t) + \rmat H \rvec u(t) \quad \quad
+                   &
+                   & \text{megfigyelő egyenlete.}
 \end{alignat}
 
 Célunk, hogy a hiba állandósult állapota zérus legyen. A hiba felírható az
 eredeti és a megfigyelt állapot különbségeként, vagyis:
 \begin{equation}
-  \rvec e = \rvec x - \hvec x
+  \rvec e(t) = \rvec x(t) - \hvec x(t)
   \quad \rightarrow \quad
-  \dot{\rvec e} = \dot{\rvec x} - \dot{\hvec x}
-  = \rmat A \rvec x
-  + \rmat B \rvec u
-  - \rmat L \hvec x
-  - \rmat L \rvec y
-  - \rmat H \rvec u
+  \dot{\rvec e}(t) = \dot{\rvec x}(t) - \dot{\hvec x}(t)
+  = \rmat A \rvec x(t)
+  + \rmat B \rvec u(t)
+  - \rmat L \hvec x(t)
+  - \rmat L \rvec y(t)
+  - \rmat H \rvec u(t)
   .
 \end{equation}
-Végezzük el a kiemeléseket, valamint használjuk az $\rvec y = \rmat C \rvec x$
+Végezzük el a kiemeléseket, valamint használjuk az $\rvec y(t) = \rmat C \rvec x(t)$
 kimeneti összefüggést:
 \begin{equation}
-  \dot{\rvec e}
-  = (\rmat A - \rmat L \rmat C) \rvec x
-  - \rmat F \hvec x
-  + (\rmat B - \rmat H) \rvec u
+  \dot{\rvec e} (t)
+  = (\rmat A - \rmat L \rmat C) \rvec x(t)
+  - \rmat F \hvec x(t)
+  + (\rmat B - \rmat H) \rvec u(t)
   .
 \end{equation}
 A hiba deriváltja állandósult állapotban zérus, definiáljuk tehát az alábbi
@@ -104,9 +104,9 @@ változókat ezen gondolat szellemében (xd):
 \end{equation}
 Ekkor az egyenletünk az alábbi alakra egyszerűsödik:
 \begin{equation}
-  \dot{\rvec e}
-  = (\rvec A - \rvec L \rvec C) (\rvec x - \hvec x)
-  = \rmat F \rvec e.
+  \dot{\rvec e}(t)
+  = (\rvec A - \rvec L \rvec C) (\rvec x(t) - \hvec x(t))
+  = \rmat F \rvec e(t).
 \end{equation}
 A hibára felírt diffegyenlet megoldása idő tartományban:
 \begin{equation}
@@ -136,15 +136,16 @@ A tervezés lépései SISO rendszerek esetén:
 Az irányíthatósági kanonikus alakra való jutáshoz hasonlóan itt is hasonlósági
 transzformációt fogunk elvégezni. Vezessük be $\rmat T: \mathbb R^n \mapsto
   \mathbb R^n$ transzformációs mátrixot ($\rmat T \in \mathbb R^{n \times n}$,
-invertálható), majd hattassuk ezen transzformációt az állapottérre:
+invertálható), majd hattassuk ezen transzformációt az állapottérre
+($\tvec x(t) = \rmat T \rvec x(t)$):
 \begin{alignat}{9}
-  % noindent
-	\dot{\tvec x} & = (\rmat T \rmat A \rmat T^{-1}) \tvec x + (\rmat T \rmat B) \rvec u
-                && = \tmat A \tvec x + \tmat C \tvec u
-	\\
-	\rvec y       & = (\rmat C \rmat T^{-1}) \tvec x
-                && = \tmat C \tvec x
-  % indent
+  \dot{\tvec x}(t) & = (\rmat T \rmat A \rmat T^{-1}) \tvec x(t) + (\rmat T \rmat B) \rvec u(t)
+                   &
+                   & = \tmat A \tvec x(t) + \tmat C \tvec u(t)
+  \\
+  \rvec y(t)       & = (\rmat C \rmat T^{-1}) \tvec x(t)
+                   &
+                   & = \tmat C \tvec x(t)
 \end{alignat}
 
 $\rmat T$ transzformációs mátrix meghatározható az megfigyelhetőségi mátrix
@@ -200,9 +201,9 @@ Ezek alapján a transzformációs mátrix az alábbi képlettel határozható me
 
 A megfigyelő egyenlete:
 \begin{equation}
-  \dot{\rvec e} = (\rmat A - \rmat L \rmat C) \rvec e
+  \dot{\rvec e}(t) = (\rmat A - \rmat L \rmat C) \rvec e(t)
   \quad \overset{\rmat T}{\longrightarrow} \quad
-  \dot{\tvec e} = (\tmat A - \tmat L \tmat C) \tvec e .
+  \dot{\tvec e}(t) = (\tmat A - \tmat L \tmat C) \tvec e(t).
 \end{equation}
 
 Határozzuk meg a megfigyelést jellemző $\rmat L$ mátrixot a hasonlósági
@@ -236,7 +237,7 @@ A képletben szereplő változók elnevezése:
   \begin{tabular}{ | c c | }
     \hline
     $\uvec e_n$        & $n$-edik egységvektor               \\
-    $\rmat M_c^{-1}$   & az irányíthatósági mátrix inverze   \\
+    $\rmat M_o^{-1}$   & a megfigyelhetőségi mátrix inverze  \\
     $\varphi(\rmat X)$ & elvárt pólusokat tartalmazó polinom \\
     \hline
   \end{tabular}

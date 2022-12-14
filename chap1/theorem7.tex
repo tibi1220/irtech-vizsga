@@ -37,7 +37,8 @@ $y(t) = u(t - \tau)$ egyenlőség áll fenn, ahol $\tau$ maga a holtidő. A kime
   \includestandalone{../graphics/bode-delay}
   \caption{
     Holtidős tag Bode Diagramja
-    ($\tau=0,04$, $\omega_\text{krit} = \pi / 0,04 \simeq 78,54$)
+    ($\tau=0,04 \, \mathrm s$,
+    $\omega_\text{krit} = \pi / 0,04 \simeq 78,54 / \mathrm s$)
   }
   \label{fig:delay-bode}
 \end{figure}
@@ -53,6 +54,6 @@ Megfigyelhetjük, hogy $e^{-\iu\omega\tau}$ komplex szám hossza egységnyi
 A frekvencia növekedésével a fázistartalék egyre csökken, $\omega_\text{krit} =
   \pi / \tau$ frekvencia felett a fázistartalék negatív.
 
-Tervezéskor először kiszámoljuk a késés nélküli rendszer vágási frekvenciáját,
-majd ennek tudatában próbáljuk meg közelíteni a holtidővel rendelkező
-rendszerét.
+Tervezéskor először kiszámoljuk a késés nélküli rendszer vágási
+körfrekvenciáját, majd ennek tudatában próbáljuk meg közelíteni a holtidővel
+rendelkező rendszerét.

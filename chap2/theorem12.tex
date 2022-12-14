@@ -21,7 +21,7 @@ rendszer paraméter bizonytalanságaival. Egészítsük ki az
 
 Vezessünk be egy új állapotot, amely a kimenet integráltja:
 \begin{equation}
-  x_I(t) = \int y \, \mathrm d t
+  x_I(t) = \int y(t) \, \mathrm d t
   \quad \rightarrow \quad
   y(t) = \dot x_I(t)
   .
@@ -49,7 +49,7 @@ A kimeneti egyenlet ekkor ($K_I$ meghatározásához új pólust kell allokálni
 
 A bővített állapot-egyenlet:
 \begin{gather}
-  \dot{\tmat x}(t) = \tmat A \tvec x(t) + \tmat B u(t)
+  \dot{\tvec x}(t) = \tmat A \tvec x(t) + \tmat B u(t)
   ,
   \\
   \begin{bmatrix}

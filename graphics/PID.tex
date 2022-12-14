@@ -47,7 +47,30 @@
   \draw[arr, -to] (I) -- (sum.180);
   \draw[arr, -to] (D) -| (sum.270);
 
-  \draw[arr] (T.center) -- ++(-1.5,0);
-  \draw[arr, -to] (sum.0) -- ++(1.125,0);
+  \draw[arr] (T.center) -- ++(-1,0);
+  \draw[arr, -to] (sum.0) -- ++(1,0);
+
+  \begin{scope}[xshift=9cm]
+    \node[box] (1) at (2.5,+1.6) {$1$};
+    \node[box] (I) at (2.5,+0) {$\dfrac{1}{sT_I}$};
+    \node[box] (D) at (2.5,-1.6) {$\dfrac{sT_D}{1 + sT_D'}$};
+    \node[sum] (sum) at (4.25,0) {};
+
+    \node[box] (P) at (-.5,0) {$P$};
+
+    \node[circle, minimum size=5pt, fill=darkBlue, inner sep=0] (T) at (.75,0) {};
+
+    \draw[arr, -to] (T.center) |- (1);
+    \draw[arr, -to] (T.center) -- (I);
+    \draw[arr, -to] (T.center) |- (D);
+
+    \draw[arr, -to] (1) -| (sum.90);
+    \draw[arr, -to] (I) -- (sum.180);
+    \draw[arr, -to] (D) -| (sum.270);
+
+    \draw[arr,to-] (P.west) -- ++(-1,0);
+    \draw[arr] (P) -- (T.center);
+    \draw[arr, -to] (sum.0) -- ++(1,0);
+  \end{scope}
 \end{tikzpicture}
 \end{document}

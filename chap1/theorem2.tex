@@ -15,11 +15,11 @@ ugyanolyan választ adnak.
 
 A BIBO (Bounded Input -- Bounded Output / Gerjesztés -- Válasz) stabilitási
 feltétel azt vizsgálja, hogy véges bemenetre adott válasz véges kimenetet
-eredményez-e. A bemenet korlátos, ha $\abs{u(t)} \leq A \le \infty$
+eredményez-e. A bemenet korlátos, ha $\abs{u(t)} \leq A < \infty$
 egyenlőtlenség fennáll, valamint azt is tudjuk, hogy az operátor tartományban
 végzett szorzás időtartományban konvolúciós integrálással ekvivalens.
-Laplace-tartományban a kimenet a bemenet és a közöttük felírt átviteli függvény
-szorzata, ezért $t$ tartományban a kimenet az alábbi alakban írható fel:
+Laplace-tartományban a kimenet a bemenet és az átviteli függvény szorzataként
+áll elő, ezért $t$ tartományban a kimenet az alábbi alakban írható fel:
 \begin{equation}
   y(t)
   = \int_0^\infty w(\tau) \cdot u(t - \tau) \, \mathrm d t.
@@ -72,7 +72,7 @@ a kimenet állandósult értéke zérus.
 \subsection{Routh-Hurwitz stabilitási kritérium}
 
 A $p(s) = N_o + D_o$ karakterisztikus polinom gyökei bizonyos fokszám fölött
-nehezen megtalálhatóak. Ilyen esetben alkalmazhatjuk a Routh-Hurwitz
+nehezen határozhatóak meg. Ilyen esetben alkalmazhatjuk a Routh-Hurwitz
 kritériumot. Hozzuk a karakterisztikus polinomot az alábbi alakra:
 \begin{equation}
   p(s) = a_n s^n + a_{n-1} s^{n-1} + \dots + a_1 s + a_0.

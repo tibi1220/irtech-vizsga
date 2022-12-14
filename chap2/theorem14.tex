@@ -16,102 +16,102 @@
 
 A állapotteret és a megfigyelőt jellemző egyenletek:
 \begin{alignat}{9}
-  \dot{\rvec x} & = \rmat A \rvec x + \rmat B \rvec u
-                &
-                & \text{állapotegyenlet,}
+  \dot{\rvec x}(t) & = \rmat A \rvec x(t) + \rmat B \rvec u(t)
+                   &
+                   & \text{állapotegyenlet,}
   \\
-  \rvec y       & = \rmat C \rvec x
-                &
-                & \text{kimeneti egyenlet,}
+  \rvec y(t)       & = \rmat C \rvec x(t)
+                   &
+                   & \text{kimeneti egyenlet,}
   \\
-  \dot{\hvec x} & = \rmat F \hvec x + \rmat L \rvec y + \rmat H \rvec u \quad \quad
-                &
-                & \text{megfigyelő egyenlete.}
+  \dot{\hvec x}(t) & = \rmat F \hvec x(t) + \rmat L \rvec y(t) + \rmat H \rvec u(t) \quad \quad
+                   &
+                   & \text{megfigyelő egyenlete.}
 \end{alignat}
 
 $\rmat F = \rmat A - \rmat L \rmat C$ és $\rmat H = \rmat B$ egyenlőségek
-továbbá is fennállnak, valamint a hiba is az előzőekhez hasonlóan a $\rvec e =
-  \rvec x - \hvec x$ egyenlettel számítható. A hiba deriváltja ekkor:
+továbbá is fennállnak, valamint a hiba is az előzőekhez hasonlóan a $\rvec e(t)
+  = \hvec x(t) - \rvec x(t)$ egyenlettel számítható. A hiba deriváltja ekkor:
 \begin{equation}
-  \dot{\rvec e}
-  = \dot{\rvec x} - \dot{\hvec x}
-  = (\rmat A - \rmat L \rmat C) \rvec e.
+  \dot{\rvec e}(t)
+  = \dot{\hvec x}(t) - \dot{\rvec x}(t)
+  = (\rmat A - \rmat L \rmat C) \rvec e(t).
 \end{equation}
 
 A szabályozó egyenlete a hatásvázlat alapján:
 \begin{equation}
-  u
-  = \tilde r - \rmat K \hvec x
-  = \tilde r - \rmat K (\rvec e + \rvec x)
-  = \tilde r - \begin{bmatrix}
+  u(t)
+  = \tilde r(t) - \rmat K \hvec x(t)
+  = \tilde r(t) - \rmat K (\rvec e(t) + \rvec x(t))
+  = \tilde r(t) - \begin{bmatrix}
     \rmat K & \rmat K
   \end{bmatrix} \begin{bmatrix}
-    \rvec x \\ \rvec e
+    \rvec x(t) \\ \rvec e(t)
   \end{bmatrix}
 \end{equation}
 
 Írjuk fel az eredeti állapot és a hiba megváltozását hipermátrixos alakban:
 \begin{gather}
   \begin{bmatrix}
-    \dot{\rvec x} \\ \dot{\rvec e}
+    \dot{\rvec x}(t) \\ \dot{\rvec e}(t)
   \end{bmatrix} = \begin{bmatrix}
     \rmat A & \rmat 0 \\ \rmat 0 & \rmat F
   \end{bmatrix} \begin{bmatrix}
-    \rvec x \\ \rvec e
+    \rvec x(t) \\ \rvec e(t)
   \end{bmatrix} + \begin{bmatrix}
     \rmat B \\ \rmat 0
-  \end{bmatrix} u
+  \end{bmatrix} u(t)
   ,
   \\
   \begin{bmatrix}
-    \dot{\rvec x} \\ \dot{\rvec e}
+    \dot{\rvec x}(t) \\ \dot{\rvec e}(t)
   \end{bmatrix} = \begin{bmatrix}
     \rmat A & \rmat 0 \\ \rmat 0 & \rmat F
   \end{bmatrix} \begin{bmatrix}
-    \rvec x \\ \rvec e
+    \rvec x(t) \\ \rvec e(t)
   \end{bmatrix} + \begin{bmatrix}
     \rmat B \\ \rmat 0
   \end{bmatrix} \begin{bmatrix}
     \rmat K & \rmat K
   \end{bmatrix} \begin{bmatrix}
-    \rvec x \\ \rvec e
+    \rvec x(t) \\ \rvec e(t)
   \end{bmatrix} + \begin{bmatrix}
     \rmat B \\ \rmat 0
-  \end{bmatrix} \tilde r
+  \end{bmatrix} \tilde r(t)
   ,
   \\
   \begin{bmatrix}
-    \dot{\rvec x} \\ \dot{\rvec e}
+    \dot{\rvec x}(t) \\ \dot{\rvec e}(t)
   \end{bmatrix} = \begin{bmatrix}
     \rmat A & \rmat 0 \\ \rmat 0 & \rmat F
   \end{bmatrix} \begin{bmatrix}
-    \rvec x \\ \rvec e
+    \rvec x(t) \\ \rvec e(t)
   \end{bmatrix} + \begin{bmatrix}
     \rmat B \rmat K & \rmat B \rmat K \\ \rmat 0 & \rmat 0
   \end{bmatrix} \begin{bmatrix}
-    \rvec x \\ \rvec e
+    \rvec x(t) \\ \rvec e(t)
   \end{bmatrix} + \begin{bmatrix}
     \rmat B \\ \rmat 0
-  \end{bmatrix} \tilde r
+  \end{bmatrix} \tilde r(t)
   ,
   \\
   \begin{bmatrix}
-    \dot{\rvec x} \\ \dot{\rvec e}
+    \dot{\rvec x}(t) \\ \dot{\rvec e}(t)
   \end{bmatrix} = \underbracket{\begin{bmatrix}
       \rmat A - \rmat B \rmat K &
       \rmat -\rmat B \rmat K      \\
       \rmat 0                   &
       \rmat A - \rmat L \rmat C
     \end{bmatrix}}_{\rmat{DZS}} \begin{bmatrix}
-    \rvec x \\ \rvec e
+    \rvec x(t) \\ \rvec e(t)
   \end{bmatrix} + \begin{bmatrix}
     \rmat B \\ \rmat 0
-  \end{bmatrix} \tilde r
+  \end{bmatrix} \tilde r(t)
   .
 \end{gather}
 
-A tervezés során kitétel hogy $\tilde r = 0$. Számítsuk ki $\rmat{DZS}$ mátrix
-sajátértékeit a szeparációs elv segítségével:
+A tervezés során kitétel hogy $\tilde r(t) \equiv 0$. Számítsuk ki $\rmat{DZS}$
+mátrix sajátértékeit a szeparációs elv segítségével:
 \begin{equation}
   \tilde p(s)
   = \det(s \Imat - \rmat{DZS})
@@ -160,7 +160,7 @@ A megfigyelőt és a visszacsatolást külön tervezzük, melyek lépései:
           \end{bmatrix}^\T
           .
         \end{equation}
-  \item Pólusallokáció a visszacsatolás számára
+  \item Pólusallokáció a megfigyelő számára
         (multiplikáció megengedett, $c > 1$, tetszőleges):
         \begin{gather}
           q_{12}
@@ -170,7 +170,7 @@ A megfigyelőt és a visszacsatolást külön tervezzük, melyek lépései:
           = (s - q_1)(s - q_2)
           = s^2 + 2c \beta s + c^2 \beta^2
         \end{gather}
-  \item $\rmat K$ mátrix meghatározása az Ackermann-formula segítségével:
+  \item $\rmat L$ mátrix meghatározása az Ackermann-formula segítségével:
         \begin{equation}
           \rmat L
           = \varphi_o(\rmat A)
