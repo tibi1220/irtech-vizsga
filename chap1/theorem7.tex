@@ -22,9 +22,9 @@ $y(t) = u(t - \tau)$ egyenlőség áll fenn, ahol $\tau$ maga a holtidő. A kime
 \begin{equation}
   y(t) = u(t - \tau)
   \quad \rightarrow \quad
-  Y(s) = e^{-\tau s} U(s)
+  Y(s) = e^{-s \tau} U(s)
   \quad \rightarrow \quad
-  W_d(s) = e^{-\tau s}
+  W_d(s) = e^{-s \tau}
   .
   \label{eq:delay-W}
 \end{equation}
@@ -49,7 +49,7 @@ $s = \iu \omega$ helyettesítéssel:
   W_d(\iu\omega) = e^{-\iu\omega\tau}
   \label{eq:delay-iuw}
 \end{equation}
-Megfigyelhetjük, hogy $e^{-\iu\omega\tau}$ komplex szám hossza egységnyi
+Megfigyelhetjük, hogy az $e^{-\iu\omega\tau}$ komplex szám hossza egységnyi
 ($A(\omega) = 1$), valamint fázisszöge $\varphi(\omega) = -\omega\tau$.
 A frekvencia növekedésével a fázistartalék egyre csökken, $\omega_\text{krit} =
   \pi / \tau$ frekvencia felett a fázistartalék negatív.

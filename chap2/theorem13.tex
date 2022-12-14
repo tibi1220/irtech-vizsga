@@ -55,8 +55,8 @@ Az megfigyelhetőségi mátrix az alábbi alakban írható fel:
   \label{fig:state-observer}
 \end{figure}
 
-Állapot-megfigyelő tervezése során feltételezzük, hogy az összes állapot a
-rendelkezésünkre áll. A célunk, hogy az összes állapot ismert legyen.
+Állapot-megfigyelő tervezése során  célunk, hogy az összes állapot ismert
+legyen.
 
 A rendszer és a megfigyelő egyenletei:
 \begin{alignat}{9}
@@ -141,11 +141,11 @@ invertálható), majd hattassuk ezen transzformációt az állapottérre
 \begin{alignat}{9}
   \dot{\tvec x}(t) & = (\rmat T \rmat A \rmat T^{-1}) \tvec x(t) + (\rmat T \rmat B) \rvec u(t)
                    &
-                   & = \tmat A \tvec x(t) + \tmat C \tvec u(t)
+                   & = \tmat A \tvec x(t) + \tmat B \rvec u(t),
   \\
   \rvec y(t)       & = (\rmat C \rmat T^{-1}) \tvec x(t)
                    &
-                   & = \tmat C \tvec x(t)
+                   & = \tmat C \tvec x(t).
 \end{alignat}
 
 $\rmat T$ transzformációs mátrix meghatározható az megfigyelhetőségi mátrix

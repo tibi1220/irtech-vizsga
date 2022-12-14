@@ -67,7 +67,7 @@ A tervezés lépései SISO rendszerek esetén:
 Adott egy állapottér modell állapot-visszacsatolással, melynek egyenletei
 ($\tvec r(t) \equiv \nvec$):
 \begin{alignat}{9}
-  \dot{\rvec x(t)} & = \rmat A \rvec x(t) + \rmat B \rvec u(t) \quad \quad
+  \dot{\rvec x}(t) & = \rmat A \rvec x(t) + \rmat B \rvec u(t) \quad \quad
                    &
                    & \text{állapotegyenlet,}
   \\
@@ -86,7 +86,7 @@ transzformációt az előző egyenletekre ($\tvec x(t) = \rmat T \rvec x(t)$):
 \begin{alignat}{9}
   \dot{\tvec x}(t) & = (\rmat T \rmat A \rmat T^{-1}) \tvec x(t) + (\rmat T \rmat B) \rvec u(t)
                    &
-                   & = \tmat A \tvec x(t) + \tmat C \rvec u(t),
+                   & = \tmat A \tvec x(t) + \tmat B \rvec u(t),
   \\
   \rvec y(t)       & = (\rmat C \rmat T^{-1}) \tvec x(t)
                    &
