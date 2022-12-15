@@ -6,7 +6,7 @@
 \input{../utils/colors}
 
 \newcommand{\rvec}[1]{\mathbfit{#1}}
-\newcommand{\uvec}[1]{\widehat{\mathbfit{#1}}}
+\newcommand{\tvec}[1]{\hat{\mathbfit{#1}}}
 \newcommand{\rmat}[1]{\mathbf{#1}}
 
 \begin{document}
@@ -47,7 +47,7 @@
   (H) at ($(X.east)!0.5!(C.west)$) {};
 
   \draw[arr,to-] (R.west) -- ++(-1.5,0) node[ma] {${\rvec r}(t)$};
-  \draw[arr,-to] (R) -- (sum);
+  \draw[arr,-to] (R) -- (sum) node[ma] {$\tvec r$(t)};
   \draw[arr,-to] (sum) -- (X) node[ma] {$\rvec u(t)$};
   \draw[arr,-to] (X) -- (C) node[ma] {$\rvec x(t)$};
   \draw[arr,-to] (C.east) -- ++(1.5,0) node[ma] {$\rvec y(t)$};
